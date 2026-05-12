@@ -31,7 +31,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px
 .timeline{display:grid;gap:12px}.day{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:stretch;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(17,24,39,.75)}.daynum{background:linear-gradient(180deg,#0e7490,#064e3b);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:12px;font-weight:950;text-align:center}.daynum span:first-child{font-size:13px;color:#cbd5e1}.daynum span:last-child{font-size:24px}.daybody{padding:14px}.daytitle{font-size:18px;font-weight:950;margin-bottom:6px}.daymeta{display:flex;gap:8px;flex-wrap:wrap;margin:9px 0}.checks{display:grid;gap:8px;margin-top:10px}.check{display:flex;gap:9px;align-items:flex-start;padding:9px;border:1px solid var(--line);border-radius:13px;background:#0a1220}.check input{width:auto;margin-top:2px}
 .map-frame{width:100%;height:520px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#080d18}iframe{width:100%;height:100%;border:0}.progress{height:14px;background:#09111f;border:1px solid var(--line);border-radius:999px;overflow:hidden}.bar{height:100%;background:linear-gradient(90deg,#38bdf8,#22c55e,#f59e0b);width:0%}
 .alert{padding:12px;border:1px solid var(--line);border-radius:15px;background:#0a1220;margin:8px 0;line-height:1.45}.alert.warn{border-color:#7c4a03;background:#211707}.alert.ok{border-color:#166534;background:#0c1e14}.alert.info{border-color:#075985;background:#081b27}.alert.danger{border-color:#7f1d1d;background:#220f12}
-.route-card{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:12px;background:#0a1220;margin-bottom:10px}.route-icon{width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#22c55e);display:grid;place-items:center;color:#07111f;font-weight:950;flex:0 0 auto}
+.route-card{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:12px;background:#0a1220;margin-bottom:10px}.route-card-main{flex:1;min-width:0}.route-map-thumb{width:100%;height:150px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#08111f;margin:10px 0}.route-map-thumb iframe{width:100%;height:100%;border:0;display:block}.route-icon{width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#22c55e);display:grid;place-items:center;color:#07111f;font-weight:950;flex:0 0 auto}
 .attachment{border:1px solid var(--line);border-radius:14px;padding:10px;background:#0a1220;display:flex;gap:10px;align-items:center;justify-content:space-between}.thumb{width:56px;height:56px;border-radius:12px;object-fit:cover;background:#111827;border:1px solid var(--line)}.mini-card{border:1px solid var(--line);border-radius:16px;padding:12px;background:#0a1220}.right{text-align:right}.footer-note{margin:20px 0;color:var(--muted);font-size:12px;line-height:1.5}
 dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--text);width:min(960px,calc(100% - 24px));box-shadow:0 30px 90px rgba(0,0,0,.72)}dialog::backdrop{background:rgba(0,0,0,.72)}
 @media(max-width:900px){header{flex-direction:column}.actions{justify-content:flex-start}.cols4,.cols3,.cols2,.form-grid,.form-grid.two{grid-template-columns:1fr}.day{grid-template-columns:1fr}.daynum{flex-direction:row;gap:8px}th{position:static}.map-frame{height:430px}}
@@ -85,6 +85,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
   #legsTable td:nth-child(4)::before{content:"Tempo: ";color:var(--muted);font-size:11px}
   #budgetTable td:nth-child(3){font-size:18px;font-weight:900;color:#bbf7d0}
   .route-card{border-radius:14px;padding:10px}
+  .route-map-thumb{height:125px;border-radius:12px}
   .route-icon{width:34px;height:34px;border-radius:12px}
   .attachment{align-items:flex-start;flex-direction:column}
   .attachment .actions{display:flex;width:100%;grid-template-columns:none}
@@ -146,7 +147,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 </nav>
 
 <section id="overview" class="active">
-<div class="hero"><div class="quote">Uma travessia lenta, agradável, editável e cinematográfica.</div><p id="tripDescription"></p><div class="daymeta"><span class="pill nature">Natureza</span><span class="pill water">Águas cristalinas</span><span class="pill history">História</span><span class="pill border">Fronteiras</span><span class="pill road">Estrada cênica</span><span class="pill hotel">Planejamento flexível</span></div></div>
+<div class="hero"><div class="quote">Uma travessia lenta, agradável e editável.</div><p id="tripDescription"></p><div class="daymeta"><span class="pill nature">Natureza</span><span class="pill water">Águas cristalinas</span><span class="pill history">História</span><span class="pill border">Fronteiras</span><span class="pill road">Estrada cênica</span><span class="pill hotel">Planejamento flexível</span></div></div>
 <div class="grid cols4" style="margin-top:14px">
 <div class="card metric"><div class="label">Duração</div><div class="value" id="mDays">21 dias</div><div class="note">Editável no roteiro.</div></div>
 <div class="card metric"><div class="label">Distância estimada</div><div class="value" id="mKm">≈ 2.450 km</div><div class="note">Soma aproximada dos trechos cadastrados.</div></div>
@@ -425,7 +426,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 <script>
 const LS="rota_epica_v3_equilibrada";
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
-function enc(s){return encodeURIComponent(s||"")}function mapsDir(from,to){return `https://www.google.com/maps/dir/?api=1&origin=${enc(from)}&destination=${enc(to)}&travelmode=driving`}function mapsSearch(q){return `https://www.google.com/maps/search/?api=1&query=${enc(q)}`}function safe(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+function enc(s){return encodeURIComponent(s||"")}function mapsDir(from,to){return `https://www.google.com/maps/dir/?api=1&origin=${enc(from)}&destination=${enc(to)}&travelmode=driving`}function mapsSearch(q){return `https://www.google.com/maps/search/?api=1&query=${enc(q)}`}function mapEmbed(q){return `https://maps.google.com/maps?q=${enc(q)}&output=embed`}function safe(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
 function brl(n){return Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
 const defaultState=()=>({
 trip:{title:"Viagem Guido e Thayná de Junho de 2026",subtitle:"Versão 3 equilibrada: Pantanal primeiro, Bonito enxuto e épico, Paraguai com mais peso turístico, Foz como clímax final.",description:"Roteiro reestruturado para ficar mais lógico e equilibrado: chegada por Campo Grande, abertura no Pantanal Sul, descida para Bonito com Gruta do Lago Azul, um rio épico de flutuação e Abismo Anhumas, depois Ponta Porã/Pedro Juan, Paraguai profundo, Assunção, Encarnación, Missões Jesuíticas, Saltos del Monday e Foz do Iguaçu."},
@@ -529,7 +530,24 @@ function checkHtml(text){const ch=checked(text)?"checked":"";const arg=text.repl
 function renderOverview(){tripTitle.textContent=state.trip.title;tripSubtitle.textContent=state.trip.subtitle;tripDescription.textContent=state.trip.description;mDays.textContent=state.days.length+" dias";mKm.textContent="≈ "+estimateKm()+" km";const total=state.budget.reduce((s,b)=>s+Number(b.value||0),0);mBudget.textContent=brl(total);renderProgress();renderRouteSummary()}
 function estimateKm(){let total=0;state.legs.forEach(l=>{const m=String(l.km||"").match(/[\d.,]+/g);if(m){const nums=m.map(x=>Number(x.replace(",","."))).filter(n=>!isNaN(n));if(nums.length)total+=nums.reduce((a,b)=>a+b,0)/nums.length}});return Math.round(total).toLocaleString("pt-BR")}
 function renderProgress(){const all=[];state.days.forEach(d=>d.highlights.forEach(h=>all.push(`Dia ${d.day}: ${h}`)));state.docItems.forEach(x=>all.push("Documento: "+x));state.travelItems.forEach(x=>all.push("Viagem: "+x));const done=all.filter(checked).length,pct=all.length?done/all.length*100:0;progressBar.style.width=pct+"%";progressText.textContent=`${done} de ${all.length} checkpoints concluídos (${pct.toFixed(0)}%).`;mProgress.textContent=pct.toFixed(0)+"%"}
-function renderRouteSummary(){const pts=routePoints();routeSummary.innerHTML=pts.map((p,i)=>`<div class="route-card"><div class="route-icon">${i+1}</div><div><strong>${safe(p)}</strong><br><span class="muted small">${i<pts.length-1?"Próximo: "+safe(pts[i+1]):"Destino final"}</span><div style="margin-top:8px"><a class="btn" target="_blank" href="${mapsSearch(p)}">Ver ponto</a>${i<pts.length-1?` <a class="btn primary" target="_blank" href="${mapsDir(p,pts[i+1])}">Navegar</a>`:""}</div></div></div>`).join("")}
+function renderRouteSummary(){
+  const pts=routePoints();
+  routeSummary.innerHTML=pts.map((p,i)=>`
+    <div class="route-card">
+      <div class="route-icon">${i+1}</div>
+      <div class="route-card-main">
+        <strong>${safe(p)}</strong><br>
+        <span class="muted small">${i<pts.length-1?"Próximo: "+safe(pts[i+1]):"Destino final"}</span>
+        <div class="route-map-thumb">
+          <iframe src="${mapEmbed(p)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de ${safe(p)}"></iframe>
+        </div>
+        <div style="margin-top:8px">
+          <a class="btn" target="_blank" href="${mapsSearch(p)}">Ver ponto</a>${i<pts.length-1?` <a class="btn primary" target="_blank" href="${mapsDir(p,pts[i+1])}">Navegar</a>`:""}
+        </div>
+      </div>
+    </div>
+  `).join("")
+}
 function renderFilters(){const bases=[...new Set(state.days.map(d=>d.base))];const cur=baseFilter.value||"all";baseFilter.innerHTML=`<option value="all">Todas</option>`+bases.map(b=>`<option value="${safe(b)}">${safe(b)}</option>`).join("");baseFilter.value=bases.includes(cur)?cur:"all"}
 function renderTimeline(){renderFilters();const base=baseFilter.value||"all",type=typeFilter.value||"all";let vis=[...state.days].sort((a,b)=>a.day-b.day);if(base!=="all")vis=vis.filter(d=>d.base===base);if(type!=="all")vis=vis.filter(d=>d.type.includes(type));timelineBox.innerHTML=vis.map(d=>`<div class="day"><div class="daynum"><span>Dia</span><span>${d.day}</span></div><div class="daybody"><div class="daytitle">${safe(d.title)}</div><div class="muted">${safe(d.drive)} • Pernoite: <strong>${safe(d.sleep)}</strong></div><div class="daymeta">${d.type.map(pill).join("")}</div>${d.notes?`<div class="alert info small">${safe(d.notes)}</div>`:""}<div class="checks">${d.highlights.map(h=>checkHtml(`Dia ${d.day}: ${h}`)).join("")}</div><div class="actions" style="justify-content:flex-start;margin-top:10px"><button onclick="openDayDialog('${d.id}')">Editar dia</button><button onclick="duplicateDay('${d.id}')">Duplicar</button></div></div></div>`).join("")}
 function renderLegs(){legsTable.innerHTML=`<thead><tr><th>#</th><th>Trecho</th><th>Distância</th><th>Tempo</th><th>Observação</th><th>Google Maps</th><th></th></tr></thead><tbody>${state.legs.map((l,i)=>`<tr><td>${i+1}</td><td><strong>${safe(l.from)}</strong><br><span class="muted">→ ${safe(l.to)}</span></td><td>${safe(l.km)} km</td><td>${safe(l.time)}</td><td class="small muted">${safe(l.note)}</td><td><a class="btn primary" target="_blank" href="${mapsDir(l.from,l.to)}">Abrir rota</a></td><td><button onclick="openLegDialog('${l.id}')">Editar</button></td></tr>`).join("")}</tbody>`}
