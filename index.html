@@ -721,7 +721,7 @@ function resetAll(){if(confirm("Restaurar padrão e apagar edições salvas?")){
 
 
 /* ===== Memória Viva — Google Docs + JSON ===== */
-const MEM_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxi7j5tzTpiUuSTEvEXNKI60nUcj-vELNcJRMM7YDi0E7tcSkibDm3P8_vl6IB3z2qMgw/exec";
+const MEM_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxYKXMTs7SJL_M1vdoCWKZk1fi0fJdu7UBUVtp1fd5sS4ZS7JC03HP-J2mqx6hO5wBNQ/exec";
 let memCurrentData = null;
 function memStatus(message,type=""){const box=document.getElementById("memStatus");if(!box)return;box.textContent=message;box.className="memory-status"+(type?" "+type:"")}
 function memBuildUrl(params){const u=new URL(MEM_APPS_SCRIPT_URL);Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));return u.toString()}
@@ -777,8 +777,10 @@ async function syncAppToDocs(){
   if(typeof memStatus==="function")memStatus("Sincronizando estado completo do app com o Google Docs...");
   try{
     await postToAppsScript({action:"syncApp",pin,author:"Guido",payload});
+    await new Promise(resolve=>setTimeout(resolve,1400));
+    if(typeof memLoadData==="function")await memLoadData();
     setAppSyncStatus("Docs: sincronizado","ok");
-    if(typeof memStatus==="function")memStatus("Estado completo enviado ao Google Docs. Atualize a memória para confirmar a leitura.","ok");
+    if(typeof memStatus==="function")memStatus("Estado completo enviado e leitura do Google Docs atualizada.","ok");
   }catch(e){
     setAppSyncStatus("Docs: erro","err");
     if(typeof memStatus==="function")memStatus("Erro ao sincronizar app: "+e.message,"err");
