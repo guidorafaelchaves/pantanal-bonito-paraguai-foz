@@ -330,43 +330,43 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 
 <section id="rental">
 <div class="hero">
-  <div class="quote">Aluguel do carro: retirar em Campo Grande e devolver em Foz.</div>
+  <div class="quote">Aluguel do carro: controle real da frota da viagem.</div>
   <p>
-    Registre aqui as cotações de locadoras, comparadores, categoria do carro, taxa de retorno, seguro, autorização para cruzar o Paraguai, carta verde, franquia, km livre e custo total. Essa seção foi pensada para comparar o custo real da travessia, não apenas a diária.
+    Controle cada carro alugado ao longo do percurso: retirada, entrega, horários, placa, contrato, vistoria, seguro, caução, km inicial/final, fronteira e custos reais. Use um registro para cada locação.
   </p>
 </div>
 <div class="toolbar" style="margin-top:14px">
-  <button class="primary" onclick="openRentalDialog()">+ Nova cotação de carro</button>
+  <button class="primary" onclick="openRentalDialog()">+ Nova locação</button>
   <label>Filtrar status
     <select id="rentalFilter" onchange="renderRental()">
       <option value="all">Todos</option>
       <option value="cotacao">Cotação</option>
       <option value="favorito">Favorito</option>
       <option value="reservado">Reservado</option>
+      <option value="retirado">Retirado</option>
+      <option value="devolvido">Devolvido</option>
       <option value="descartado">Descartado</option>
     </select>
   </label>
 </div>
 <div class="grid cols4">
-  <div class="card metric"><div class="label">Menor total</div><div class="value" id="rBest">R$ 0,00</div><div class="note">Menor custo total cadastrado.</div></div>
-  <div class="card metric"><div class="label">Média diária</div><div class="value" id="rDaily">R$ 0,00</div><div class="note">Do melhor custo total.</div></div>
-  <div class="card metric"><div class="label">Taxa de retorno</div><div class="value" id="rReturnFee">R$ 0,00</div><div class="note">Na melhor cotação.</div></div>
-  <div class="card metric"><div class="label">Cotações salvas</div><div class="value" id="rCount">0</div><div class="note">Registros editáveis.</div></div>
+  <div class="card metric"><div class="label">Próxima retirada</div><div class="value" id="rBest">—</div><div class="note">Locação mais próxima.</div></div>
+  <div class="card metric"><div class="label">Carros ativos</div><div class="value" id="rDaily">0</div><div class="note">Status retirado/reservado.</div></div>
+  <div class="card metric"><div class="label">Total previsto</div><div class="value" id="rReturnFee">R$ 0,00</div><div class="note">Custos cadastrados.</div></div>
+  <div class="card metric"><div class="label">Locações salvas</div><div class="value" id="rCount">0</div><div class="note">Carros/trechos editáveis.</div></div>
 </div>
 <div class="grid cols2" style="margin-top:14px">
   <div class="card">
-    <h2>Resumo estratégico</h2>
+    <h2>Painel da frota</h2>
     <div id="rentalSummary"></div>
   </div>
   <div class="card">
-    <h2>Checklist específico do carro</h2>
-    <div class="alert warn"><strong>Obrigatório:</strong> autorização da locadora para atravessar ao Paraguai.</div>
-    <div class="alert warn"><strong>Verificar:</strong> seguro internacional/carta verde, cobertura contra terceiros, franquia e assistência 24h.</div>
-    <div class="alert info"><strong>Comparação correta:</strong> diária + taxa de retorno + seguros + condutor adicional + pedágios/combustível estimado.</div>
+    <h2>Checklist operacional</h2>
+    <div id="rentalChecklist"></div>
   </div>
 </div>
 <div class="card" style="margin-top:14px">
-  <h2>Cotações de aluguel</h2>
+  <h2>Locações e carros do percurso</h2>
   <div class="table-wrap"><table id="rentalTable"></table></div>
 </div>
 </section>
@@ -513,7 +513,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 </form></dialog>
 
 <dialog id="rentalDialog"><form method="dialog" onsubmit="event.preventDefault();saveRental()">
-<h2 id="rentalDialogTitle">Cotação de aluguel do carro</h2>
+<h2 id="rentalDialogTitle">Locação do carro</h2>
 <div class="form-grid">
   <label>Locadora / comparador<input id="rCompany" placeholder="Localiza, Movida, Unidas, Rentcars..."></label>
   <label>Status
@@ -521,17 +521,30 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
       <option value="cotacao">Cotação</option>
       <option value="favorito">Favorito</option>
       <option value="reservado">Reservado</option>
+      <option value="retirado">Retirado</option>
+      <option value="devolvido">Devolvido</option>
       <option value="descartado">Descartado</option>
     </select>
   </label>
+  <label>Trecho / uso<input id="rSegment" placeholder="Campo Grande → Bonito, Paraguai, Foz..."></label>
   <label>Categoria / modelo<input id="rCar" placeholder="SUV compacto, sedan, automático..."></label>
-  <label>Retirada<input id="rPickup" placeholder="Campo Grande/CGR"></label>
-  <label>Devolução<input id="rDropoff" placeholder="Foz do Iguaçu/IGU"></label>
+  <label>Placa<input id="rPlate" placeholder="ABC1D23"></label>
+  <label>Contrato / reserva<input id="rContract" placeholder="Nº contrato ou reserva"></label>
+  <label>Retirada<input id="rPickup" placeholder="Local de retirada"></label>
+  <label>Data retirada<input id="rPickupDate" type="date"></label>
+  <label>Hora retirada<input id="rPickupTime" type="time"></label>
+  <label>Devolução<input id="rDropoff" placeholder="Local de entrega"></label>
+  <label>Data entrega<input id="rDropoffDate" type="date"></label>
+  <label>Hora entrega<input id="rDropoffTime" type="time"></label>
+  <label>Km inicial<input id="rKmStart" type="number" step="1"></label>
+  <label>Km final<input id="rKmEnd" type="number" step="1"></label>
   <label>Dias<input id="rDays" type="number" step="1" value="22"></label>
   <label>Diária R$<input id="rDailyInput" type="number" step="0.01"></label>
   <label>Taxa de retorno R$<input id="rReturnFeeInput" type="number" step="0.01"></label>
   <label>Seguros R$<input id="rInsurance" type="number" step="0.01"></label>
   <label>Condutor adicional R$<input id="rDriver" type="number" step="0.01"></label>
+  <label>Caução / bloqueio R$<input id="rDeposit" type="number" step="0.01"></label>
+  <label>Combustível / pedágios R$<input id="rFuel" type="number" step="0.01"></label>
   <label>Outras taxas R$<input id="rOther" type="number" step="0.01"></label>
   <label>Autorização Paraguai?
     <select id="rParaguay">
@@ -556,8 +569,22 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
       <option value="nao_informado">Não informado</option>
     </select>
   </label>
-  <label class="full">Link da cotação<input id="rLink" placeholder="Cole aqui o link da locadora/comparador"></label>
-  <label class="full">Observações<textarea id="rNotes" placeholder="Franquia, assistência 24h, caução, política de fronteira, pneus, seguro, retirada/devolução..."></textarea></label>
+  <label>Vistoria retirada?
+    <select id="rInspectionOut">
+      <option value="pendente">Pendente</option>
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+    </select>
+  </label>
+  <label>Vistoria entrega?
+    <select id="rInspectionIn">
+      <option value="pendente">Pendente</option>
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+    </select>
+  </label>
+  <label class="full">Link da reserva / contrato<input id="rLink" placeholder="Cole aqui o link da locadora, contrato, voucher ou fotos de vistoria"></label>
+  <label class="full">Observações<textarea id="rNotes" placeholder="Franquia, assistência 24h, pneus, avarias, lavagem, combustível, política de fronteira, horário de agência..."></textarea></label>
 </div>
 <div class="actions" style="justify-content:flex-start;margin-top:14px">
   <button class="primary" type="submit">Salvar</button>
@@ -768,45 +795,57 @@ function saveFlight(){
 }
 function deleteFlight(){if(editFlight&&confirm("Excluir esta cotação aérea?")){state.flights=state.flights.filter(x=>x.id!==editFlight);flightDialog.close();save()}}
 
-function rentalTotal(r){return Number(r.days||0)*Number(r.daily||0)+Number(r.returnFee||0)+Number(r.insurance||0)+Number(r.driver||0)+Number(r.other||0)}
+function rentalTotal(r){return Number(r.days||0)*Number(r.daily||0)+Number(r.returnFee||0)+Number(r.insurance||0)+Number(r.driver||0)+Number(r.other||0)+Number(r.fuel||0)}
+function rentalStatusLabel(s){return {cotacao:"Cotação",favorito:"Favorito",reservado:"Reservado",retirado:"Retirado",devolvido:"Devolvido",descartado:"Descartado"}[s]||s||"Pendente"}
+function rentalDateTime(r){const date=r.pickupDate||"";if(!date)return null;const time=r.pickupTime||"00:00";const d=new Date(`${date}T${time}`);return Number.isNaN(d.getTime())?null:d}
+function formatRentalPickup(r){const d=rentalDateTime(r);if(!d)return r.pickupDate||"---";return d.toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}
 function renderRental(){
   if(!document.getElementById("rentalTable")) return;
   const rows=state.rental||[];
   const valid=rows.filter(r=>r.status!=="descartado");
-  const best=valid.length?[...valid].sort((a,b)=>rentalTotal(a)-rentalTotal(b))[0]:null;
-  const bestTotal=best?rentalTotal(best):0;
-  rBest.textContent=brl(bestTotal);
-  rDaily.textContent=best&&Number(best.days)?brl(bestTotal/Number(best.days)):brl(0);
-  rReturnFee.textContent=best?brl(best.returnFee):brl(0);
-  rCount.textContent=rows.length;
-  rentalSummary.innerHTML = best ? `
-    <div class="alert ${best.paraguay==="sim"?"ok":"warn"}"><strong>Melhor cotação:</strong> ${safe(best.company)} — ${safe(best.car)} por ${brl(bestTotal)}.</div>
-    <div class="alert info"><strong>Retirada/devolução:</strong> ${safe(best.pickup)} → ${safe(best.dropoff)}.</div>
-    <div class="alert warn"><strong>Paraguai:</strong> autorização ${safe(best.paraguay)}; Carta Verde/seguro internacional: ${safe(best.greenCard)}; km livre: ${safe(best.kmFree)}.</div>
-  ` : `<div class="alert info">Nenhuma cotação de carro cadastrada ainda.</div>`;
+  const upcoming=[...valid].filter(r=>rentalDateTime(r)).sort((a,b)=>rentalDateTime(a)-rentalDateTime(b));
+  const next=upcoming[0]||valid[0]||null;
+  const active=valid.filter(r=>["reservado","retirado"].includes(r.status));
+  const total=valid.reduce((s,r)=>s+rentalTotal(r),0);
+  rBest.textContent=next?formatRentalPickup(next):"---";
+  rDaily.textContent=active.length;
+  rReturnFee.textContent=brl(total);
+  rCount.textContent=valid.length;
+  rentalSummary.innerHTML = valid.length ? `
+    <div class="alert ok"><strong>Próxima locação:</strong> ${next?`${safe(next.segment||"Trecho")} · ${safe(next.company||"")} · ${safe(next.car||"")} · retirada ${formatRentalPickup(next)}`:"Nenhuma retirada datada."}</div>
+    <div class="alert info"><strong>Placas:</strong> ${valid.map(r=>safe(r.plate||"---")).join(" · ")}</div>
+    <div class="alert ${valid.some(r=>r.paraguay!=="sim")?"warn":"ok"}"><strong>Fronteira Paraguai:</strong> ${valid.filter(r=>r.paraguay==="sim").length}/${valid.length} locação(ões) com autorização marcada.</div>
+  ` : `<div class="alert info">Nenhuma locação cadastrada ainda.</div>`;
+  const missingPlate=valid.filter(r=>!r.plate&&["retirado","devolvido"].includes(r.status)).length, missingContract=valid.filter(r=>!r.contract).length, missingInspection=valid.filter(r=>r.inspectionOut!=="sim").length, missingReturn=valid.filter(r=>r.status!=="devolvido").length;
+  rentalChecklist.innerHTML = `
+    <div class="alert ${missingContract?"warn":"ok"}"><strong>Contrato/reserva:</strong> ${missingContract?missingContract+" locação(ões) sem contrato.":"Contratos registrados."}</div>
+    <div class="alert ${missingPlate?"warn":"ok"}"><strong>Placa:</strong> ${missingPlate?missingPlate+" carro(s) retirado(s) sem placa.":"Placas registradas quando aplicável."}</div>
+    <div class="alert ${missingInspection?"warn":"ok"}"><strong>Vistoria retirada:</strong> ${missingInspection?missingInspection+" pendência(s).":"Vistorias de retirada ok."}</div>
+    <div class="alert ${missingReturn?"info":"ok"}"><strong>Entrega:</strong> ${missingReturn?missingReturn+" locação(ões) ainda em aberto/reservadas.":"Todas devolvidas."}</div>
+  `;
   const filter=rentalFilter?.value||"all";
   const vis=rows.filter(r=>filter==="all"||r.status===filter);
-  rentalTable.innerHTML=`<thead><tr><th>Locadora</th><th>Carro</th><th>Retirada/Devolução</th><th>Custo</th><th>Paraguai/Seguro</th><th>Status</th><th>Obs.</th><th></th></tr></thead><tbody>${vis.map(r=>`<tr>
-    <td><strong>${safe(r.company)}</strong></td>
-    <td>${safe(r.car)}</td>
-    <td>${safe(r.pickup)}<br><span class="muted small">→ ${safe(r.dropoff)}</span></td>
-    <td><strong>${brl(rentalTotal(r))}</strong><br><span class="muted small">${r.days} dias × ${brl(r.daily)} + retorno ${brl(r.returnFee)}</span></td>
-    <td class="small">Paraguai: ${safe(r.paraguay)}<br>Carta Verde: ${safe(r.greenCard)}<br>Km livre: ${safe(r.kmFree)}</td>
-    <td>${safe(r.status)}</td>
-    <td class="small muted">${safe(r.notes||"")}${r.link?`<br><a class="btn" target="_blank" href="${safe(r.link)}">Abrir link</a>`:""}</td>
+  rentalTable.innerHTML=`<thead><tr><th>Locação</th><th>Carro/placa</th><th>Retirada</th><th>Entrega</th><th>Seguro/fronteira</th><th>Custo</th><th>Status/Obs.</th><th></th></tr></thead><tbody>${vis.map(r=>`<tr>
+    <td><strong>${safe(r.company||"")}</strong><br><span class="muted small">${safe(r.segment||"")} · contrato ${safe(r.contract||"---")}</span></td>
+    <td>${safe(r.car||"")}<br><strong>${safe(r.plate||"---")}</strong><br><span class="muted small">km ${safe(r.kmStart||"---")} → ${safe(r.kmEnd||"---")}</span></td>
+    <td>${safe(r.pickup||"")}<br><span class="muted small">${safe(r.pickupDate||"")} ${safe(r.pickupTime||"")}</span></td>
+    <td>${safe(r.dropoff||"")}<br><span class="muted small">${safe(r.dropoffDate||"")} ${safe(r.dropoffTime||"")}</span></td>
+    <td class="small">Paraguai: ${safe(r.paraguay)}<br>Carta Verde: ${safe(r.greenCard)}<br>Km livre: ${safe(r.kmFree)}<br>Vistoria: ${safe(r.inspectionOut||"pendente")} / ${safe(r.inspectionIn||"pendente")}</td>
+    <td><strong>${brl(rentalTotal(r))}</strong><br><span class="muted small">${r.days||0} dias × ${brl(r.daily)} · caução ${brl(r.deposit)}</span></td>
+    <td class="small muted"><strong>${rentalStatusLabel(r.status)}</strong><br>${safe(r.notes||"")}${r.link?`<br><a class="btn" target="_blank" href="${safe(r.link)}">Abrir contrato</a>`:""}</td>
     <td><button onclick="openRentalDialog('${r.id}')">Editar</button></td>
-  </tr>`).join("")||`<tr><td colspan="8"><div class="alert info">Nenhuma cotação de carro cadastrada.</div></td></tr>`}</tbody>`;
+  </tr>`).join("")||`<tr><td colspan="8"><div class="alert info">Nenhuma locação cadastrada.</div></td></tr>`}</tbody>`;
 }
 function openRentalDialog(id=null){
   editRental=id;
-  const r=id?state.rental.find(x=>x.id===id):{company:"",status:"cotacao",car:"",pickup:"Campo Grande/CGR",dropoff:"Foz do Iguaçu/IGU",days:22,daily:0,returnFee:0,insurance:0,driver:0,other:0,paraguay:"pendente",greenCard:"pendente",kmFree:"sim",link:"",notes:""};
-  rentalDialogTitle.textContent=id?"Editar cotação de carro":"Nova cotação de carro";
-  rCompany.value=r.company;rStatus.value=r.status;rCar.value=r.car;rPickup.value=r.pickup;rDropoff.value=r.dropoff;rDays.value=r.days;rDailyInput.value=r.daily;rReturnFeeInput.value=r.returnFee;rInsurance.value=r.insurance;rDriver.value=r.driver;rOther.value=r.other;rParaguay.value=r.paraguay;rGreenCard.value=r.greenCard;rKm.value=r.kmFree;rLink.value=r.link||"";rNotes.value=r.notes||"";
+  const r=id?state.rental.find(x=>x.id===id):{company:"",status:"reservado",segment:"",car:"",plate:"",contract:"",pickup:"Campo Grande/CGR",pickupDate:"",pickupTime:"",dropoff:"Foz do Iguaçu/IGU",dropoffDate:"",dropoffTime:"",kmStart:"",kmEnd:"",days:22,daily:0,returnFee:0,insurance:0,driver:0,deposit:0,fuel:0,other:0,paraguay:"pendente",greenCard:"pendente",kmFree:"sim",inspectionOut:"pendente",inspectionIn:"pendente",link:"",notes:""};
+  rentalDialogTitle.textContent=id?"Editar locação":"Nova locação";
+  rCompany.value=r.company||"";rStatus.value=r.status||"reservado";rSegment.value=r.segment||"";rCar.value=r.car||"";rPlate.value=r.plate||"";rContract.value=r.contract||"";rPickup.value=r.pickup||"";rPickupDate.value=r.pickupDate||"";rPickupTime.value=r.pickupTime||"";rDropoff.value=r.dropoff||"";rDropoffDate.value=r.dropoffDate||"";rDropoffTime.value=r.dropoffTime||"";rKmStart.value=r.kmStart||"";rKmEnd.value=r.kmEnd||"";rDays.value=r.days||0;rDailyInput.value=r.daily||0;rReturnFeeInput.value=r.returnFee||0;rInsurance.value=r.insurance||0;rDriver.value=r.driver||0;rDeposit.value=r.deposit||0;rFuel.value=r.fuel||0;rOther.value=r.other||0;rParaguay.value=r.paraguay||"pendente";rGreenCard.value=r.greenCard||"pendente";rKm.value=r.kmFree||"sim";rInspectionOut.value=r.inspectionOut||"pendente";rInspectionIn.value=r.inspectionIn||"pendente";rLink.value=r.link||"";rNotes.value=r.notes||"";
   deleteRentalBtn.style.display=id?"inline-flex":"none";
   rentalDialog.showModal();
 }
 function saveRental(){
-  const obj={id:editRental||uid(),company:rCompany.value,status:rStatus.value,car:rCar.value,pickup:rPickup.value,dropoff:rDropoff.value,days:Number(rDays.value||0),daily:Number(rDailyInput.value||0),returnFee:Number(rReturnFeeInput.value||0),insurance:Number(rInsurance.value||0),driver:Number(rDriver.value||0),other:Number(rOther.value||0),paraguay:rParaguay.value,greenCard:rGreenCard.value,kmFree:rKm.value,link:rLink.value,notes:rNotes.value};
+  const obj={id:editRental||uid(),company:rCompany.value,status:rStatus.value,segment:rSegment.value,car:rCar.value,plate:rPlate.value,contract:rContract.value,pickup:rPickup.value,pickupDate:rPickupDate.value,pickupTime:rPickupTime.value,dropoff:rDropoff.value,dropoffDate:rDropoffDate.value,dropoffTime:rDropoffTime.value,kmStart:rKmStart.value,kmEnd:rKmEnd.value,days:Number(rDays.value||0),daily:Number(rDailyInput.value||0),returnFee:Number(rReturnFeeInput.value||0),insurance:Number(rInsurance.value||0),driver:Number(rDriver.value||0),deposit:Number(rDeposit.value||0),fuel:Number(rFuel.value||0),other:Number(rOther.value||0),paraguay:rParaguay.value,greenCard:rGreenCard.value,kmFree:rKm.value,inspectionOut:rInspectionOut.value,inspectionIn:rInspectionIn.value,link:rLink.value,notes:rNotes.value};
   state.rental=state.rental||[];
   if(editRental)state.rental[state.rental.findIndex(x=>x.id===editRental)]=obj;else state.rental.push(obj);
   rentalDialog.close();save();
