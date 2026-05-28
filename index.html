@@ -290,13 +290,13 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 
 <section id="flights">
 <div class="hero">
-  <div class="quote">Parte aérea: entrar por Campo Grande e voltar por Foz.</div>
+  <div class="quote">Parte aérea: controle operacional dos voos.</div>
   <p>
-    Registre aqui as alternativas de voo para a lógica open-jaw da viagem: Maceió → Campo Grande na ida e Foz do Iguaçu → Maceió na volta. Você pode comparar companhias, conexões, bagagem, horários, preço por pessoa, taxas e status de compra.
+    Registre localizador, bilhetes, assentos, horários, aeroportos, bagagem, check-in e observações práticas. Esta aba agora funciona como painel de embarque da viagem, não como motor de pesquisa.
   </p>
 </div>
 <div class="toolbar" style="margin-top:14px">
-  <button class="primary" onclick="openFlightDialog()">+ Novo voo / cotação</button>
+  <button class="primary" onclick="openFlightDialog()">+ Novo voo</button>
   <label>Filtrar trecho
     <select id="flightFilter" onchange="renderFlights()">
       <option value="all">Todos</option>
@@ -307,25 +307,23 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
   </label>
 </div>
 <div class="grid cols4">
-  <div class="card metric"><div class="label">Menor ida</div><div class="value" id="fBestOut">R$ 0,00</div><div class="note">Melhor cotação marcada para ida.</div></div>
-  <div class="card metric"><div class="label">Menor volta</div><div class="value" id="fBestBack">R$ 0,00</div><div class="note">Melhor cotação marcada para volta.</div></div>
-  <div class="card metric"><div class="label">Total casal estimado</div><div class="value" id="fCoupleTotal">R$ 0,00</div><div class="note">Melhor ida + melhor volta, considerando 2 pessoas.</div></div>
-  <div class="card metric"><div class="label">Cotações salvas</div><div class="value" id="fCount">0</div><div class="note">Registros editáveis.</div></div>
+  <div class="card metric"><div class="label">Próximo voo</div><div class="value" id="fBestOut">—</div><div class="note">Data e trecho mais próximo.</div></div>
+  <div class="card metric"><div class="label">Check-in</div><div class="value" id="fBestBack">0/0</div><div class="note">Voos marcados como check-in feito.</div></div>
+  <div class="card metric"><div class="label">Total registrado</div><div class="value" id="fCoupleTotal">R$ 0,00</div><div class="note">Passagens, taxas e bagagens cadastradas.</div></div>
+  <div class="card metric"><div class="label">Voos salvos</div><div class="value" id="fCount">0</div><div class="note">Trechos operacionais.</div></div>
 </div>
 <div class="grid cols2" style="margin-top:14px">
   <div class="card">
-    <h2>Resumo estratégico</h2>
+    <h2>Painel de controle</h2>
     <div id="flightSummary"></div>
   </div>
   <div class="card">
-    <h2>Critérios de decisão</h2>
-    <div class="alert info"><strong>Alvo ideal:</strong> comprar como multidestinos: MCZ → CGR e IGU → MCZ.</div>
-    <div class="alert info"><strong>Conexão segura:</strong> preferir conexões domésticas com 1h30 ou mais.</div>
-    <div class="alert warn"><strong>Preço final:</strong> comparar com bagagem, assento, taxas e horário, não apenas tarifa básica.</div>
+    <h2>Checklist de embarque</h2>
+    <div id="flightChecklist"></div>
   </div>
 </div>
 <div class="card" style="margin-top:14px">
-  <h2>Cotações aéreas</h2>
+  <h2>Voos da viagem</h2>
   <div class="table-wrap"><table id="flightsTable"></table></div>
 </div>
 </section>
@@ -470,7 +468,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 
 
 <dialog id="flightDialog"><form method="dialog" onsubmit="event.preventDefault();saveFlight()">
-<h2 id="flightDialogTitle">Cotação aérea</h2>
+<h2 id="flightDialogTitle">Controle do voo</h2>
 <div class="form-grid">
   <label>Trecho
     <select id="fSegment">
@@ -479,26 +477,33 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
       <option value="alternativo">Alternativo</option>
     </select>
   </label>
-  <label>Companhia / agência<input id="fCompany" placeholder="Azul, LATAM, GOL, Decolar..."></label>
+  <label>Companhia<input id="fCompany" placeholder="Azul, LATAM, GOL..."></label>
   <label>Status
     <select id="fStatus">
-      <option value="cotacao">Cotação</option>
-      <option value="favorito">Favorito</option>
       <option value="comprado">Comprado</option>
-      <option value="descartado">Descartado</option>
+      <option value="checkin">Check-in feito</option>
+      <option value="embarcado">Embarcado</option>
+      <option value="concluido">Concluído</option>
+      <option value="pendente">Pendente</option>
     </select>
   </label>
+  <label>Localizador<input id="fLocator" placeholder="ABC123"></label>
+  <label>Nº do voo<input id="fFlightNo" placeholder="AD 1234"></label>
   <label>Origem<input id="fOrigin" placeholder="MCZ"></label>
   <label>Destino<input id="fDestination" placeholder="CGR"></label>
   <label>Data<input id="fDate" type="date"></label>
   <label>Saída<input id="fDeparture" type="time"></label>
   <label>Chegada<input id="fArrival" type="time"></label>
   <label>Conexão / hub<input id="fConnection" placeholder="VCP, GRU, BSB, CNF..."></label>
+  <label>Terminal / portão<input id="fTerminal" placeholder="Terminal 2, portão 35"></label>
+  <label>Assentos<input id="fSeats" placeholder="12A, 12B"></label>
+  <label>Bilhetes<input id="fTickets" placeholder="Números dos e-tickets"></label>
+  <label>Bagagem<input id="fBaggage" placeholder="1 mala 23kg + 2 mochilas"></label>
   <label>Preço por pessoa R$<input id="fPrice" type="number" step="0.01"></label>
   <label>Nº pessoas<input id="fPeople" type="number" step="1" value="2"></label>
   <label>Bagagem / taxas R$<input id="fFees" type="number" step="0.01"></label>
-  <label class="full">Link da cotação<input id="fLink" placeholder="Cole aqui o link da companhia/agência"></label>
-  <label class="full">Observações<textarea id="fNotes" placeholder="Conexão, bagagem, tarifa, assentos, flexibilidade, pontos/milhas..."></textarea></label>
+  <label class="full">Link da reserva / cartão de embarque<input id="fLink" placeholder="Cole aqui o link da companhia, reserva ou cartão de embarque"></label>
+  <label class="full">Observações<textarea id="fNotes" placeholder="Documentos, horários de chegada ao aeroporto, franquia, milhas, conexão, alimentação, cuidados..."></textarea></label>
 </div>
 <div class="actions" style="justify-content:flex-start;margin-top:14px">
   <button class="primary" type="submit">Salvar</button>
@@ -708,46 +713,55 @@ function renderChecklist(){docChecklist.innerHTML=state.docItems.map(x=>checkHtm
 
 function flightTotal(f){return (Number(f.price||0)*Number(f.people||2))+Number(f.fees||0)}
 function segmentLabel(s){return {ida:"Ida MCZ → CGR",volta:"Volta IGU → MCZ",alternativo:"Alternativo"}[s]||s}
+function flightStatusLabel(s){return {comprado:"Comprado",checkin:"Check-in feito",embarcado:"Embarcado",concluido:"Concluído",pendente:"Pendente",cotacao:"Cotação",favorito:"Favorito",descartado:"Descartado"}[s]||s||"Pendente"}
+function flightDateTime(f){if(!f.date)return null;const t=f.departure||"00:00";const d=new Date(`${f.date}T${t}`);return Number.isNaN(d.getTime())?null:d}
+function formatFlightDate(f){const d=flightDateTime(f);if(!d)return f.date||"---";return d.toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}
 function renderFlights(){
   if(!document.getElementById("flightsTable")) return;
   const rows=state.flights||[];
-  const ida=rows.filter(f=>f.segment==="ida"&&f.status!=="descartado");
-  const volta=rows.filter(f=>f.segment==="volta"&&f.status!=="descartado");
-  const bestOut=ida.length?Math.min(...ida.map(f=>flightTotal(f))):0;
-  const bestBack=volta.length?Math.min(...volta.map(f=>flightTotal(f))):0;
-  fBestOut.textContent=brl(bestOut);
-  fBestBack.textContent=brl(bestBack);
-  fCoupleTotal.textContent=brl(bestOut+bestBack);
-  fCount.textContent=rows.length;
-  const good=(bestOut+bestBack)>0&&(bestOut+bestBack)<=5400;
-  flightSummary.innerHTML = `
-    <div class="alert ${good?"ok":"info"}"><strong>Estratégia:</strong> manter lógica aérea doméstica em multidestinos: Maceió → Campo Grande e Foz → Maceió.</div>
-    <div class="alert info"><strong>Melhor total salvo para o casal:</strong> ${brl(bestOut+bestBack)}.</div>
-    <div class="alert warn"><strong>Conferir antes da compra:</strong> bagagem, tempo de conexão, aeroporto da conexão, horário de chegada em Campo Grande e folga na volta por Foz.</div>
+  const active=rows.filter(f=>f.status!=="descartado");
+  const upcoming=[...active].filter(f=>flightDateTime(f)).sort((a,b)=>flightDateTime(a)-flightDateTime(b));
+  const next=upcoming[0]||active[0]||null;
+  const checkedIn=active.filter(f=>["checkin","embarcado","concluido"].includes(f.status)).length;
+  const total=active.reduce((s,f)=>s+flightTotal(f),0);
+  fBestOut.textContent=next?formatFlightDate(next):"---";
+  fBestBack.textContent=`${checkedIn}/${active.length}`;
+  fCoupleTotal.textContent=brl(total);
+  fCount.textContent=active.length;
+  flightSummary.innerHTML = active.length ? `
+    <div class="alert ok"><strong>Próximo voo:</strong> ${next?`${segmentLabel(next.segment)} · ${safe(next.company||"")} ${safe(next.flightNo||"")} · ${safe(next.origin)} → ${safe(next.destination)} · ${formatFlightDate(next)}`:"Nenhum voo datado."}</div>
+    <div class="alert info"><strong>Localizadores:</strong> ${active.map(f=>safe(f.locator||"---")).join(" · ")}</div>
+    <div class="alert warn"><strong>Pendências:</strong> ${active.filter(f=>!["checkin","embarcado","concluido"].includes(f.status)).length} voo(s) ainda sem check-in final.</div>
+  ` : `<div class="alert info">Nenhum voo cadastrado ainda.</div>`;
+  const missingSeats=active.filter(f=>!f.seats).length, missingLocator=active.filter(f=>!f.locator).length, missingBaggage=active.filter(f=>!f.baggage).length;
+  flightChecklist.innerHTML = `
+    <div class="alert ${missingLocator?"warn":"ok"}"><strong>Localizador:</strong> ${missingLocator?missingLocator+" voo(s) sem localizador.":"Todos cadastrados."}</div>
+    <div class="alert ${missingSeats?"warn":"ok"}"><strong>Assentos:</strong> ${missingSeats?missingSeats+" voo(s) sem assentos.":"Assentos registrados."}</div>
+    <div class="alert ${missingBaggage?"warn":"ok"}"><strong>Bagagem:</strong> ${missingBaggage?missingBaggage+" voo(s) sem franquia anotada.":"Bagagem registrada."}</div>
   `;
   const filter=flightFilter?.value||"all";
   const vis=rows.filter(f=>filter==="all"||f.segment===filter);
-  flightsTable.innerHTML=`<thead><tr><th>Trecho</th><th>Companhia</th><th>Data/Horário</th><th>Conexão</th><th>Total</th><th>Status</th><th>Obs.</th><th></th></tr></thead><tbody>${vis.map(f=>`<tr>
-    <td><strong>${segmentLabel(f.segment)}</strong><br><span class="muted small">${safe(f.origin)} → ${safe(f.destination)}</span></td>
-    <td>${safe(f.company)}</td>
-    <td>${safe(f.date||"")}<br><span class="muted small">${safe(f.departure||"")} → ${safe(f.arrival||"")}</span></td>
-    <td>${safe(f.connection||"")}</td>
-    <td><strong>${brl(flightTotal(f))}</strong><br><span class="muted small">${brl(f.price)} por pessoa + ${brl(f.fees)} taxas/bagagem</span></td>
-    <td>${safe(f.status)}</td>
-    <td class="small muted">${safe(f.notes||"")}${f.link?`<br><a class="btn" target="_blank" href="${safe(f.link)}">Abrir link</a>`:""}</td>
+  flightsTable.innerHTML=`<thead><tr><th>Voo</th><th>Data/Horário</th><th>Assentos</th><th>Bagagem</th><th>Localizador</th><th>Status</th><th>Custo/Obs.</th><th></th></tr></thead><tbody>${vis.map(f=>`<tr>
+    <td><strong>${segmentLabel(f.segment)}</strong><br><span class="muted small">${safe(f.company||"")} ${safe(f.flightNo||"")} · ${safe(f.origin)} → ${safe(f.destination)}</span></td>
+    <td>${safe(f.date||"")}<br><span class="muted small">${safe(f.departure||"")} → ${safe(f.arrival||"")}${f.connection?` · conexão ${safe(f.connection)}`:""}</span><br><span class="muted small">${safe(f.terminal||"")}</span></td>
+    <td>${safe(f.seats||"---")}<br><span class="muted small">${safe(f.tickets||"")}</span></td>
+    <td>${safe(f.baggage||"---")}</td>
+    <td><strong>${safe(f.locator||"---")}</strong></td>
+    <td>${flightStatusLabel(f.status)}</td>
+    <td class="small muted"><strong>${brl(flightTotal(f))}</strong><br>${safe(f.notes||"")}${f.link?`<br><a class="btn" target="_blank" href="${safe(f.link)}">Abrir reserva</a>`:""}</td>
     <td><button onclick="openFlightDialog('${f.id}')">Editar</button></td>
   </tr>`).join("")||`<tr><td colspan="8"><div class="alert info">Nenhuma cotação aérea cadastrada.</div></td></tr>`}</tbody>`;
 }
 function openFlightDialog(id=null){
   editFlight=id;
-  const f=id?state.flights.find(x=>x.id===id):{segment:"ida",company:"",status:"cotacao",origin:"MCZ",destination:"CGR",date:"",departure:"",arrival:"",connection:"",price:0,people:2,fees:0,link:"",notes:""};
-  flightDialogTitle.textContent=id?"Editar cotação aérea":"Nova cotação aérea";
-  fSegment.value=f.segment;fCompany.value=f.company;fStatus.value=f.status;fOrigin.value=f.origin;fDestination.value=f.destination;fDate.value=f.date;fDeparture.value=f.departure;fArrival.value=f.arrival;fConnection.value=f.connection;fPrice.value=f.price;fPeople.value=f.people||2;fFees.value=f.fees;fLink.value=f.link||"";fNotes.value=f.notes||"";
+  const f=id?state.flights.find(x=>x.id===id):{segment:"ida",company:"",status:"comprado",locator:"",flightNo:"",origin:"MCZ",destination:"CGR",date:"",departure:"",arrival:"",connection:"",terminal:"",seats:"",tickets:"",baggage:"",price:0,people:2,fees:0,link:"",notes:""};
+  flightDialogTitle.textContent=id?"Editar voo":"Novo voo";
+  fSegment.value=f.segment||"ida";fCompany.value=f.company||"";fStatus.value=f.status||"comprado";fLocator.value=f.locator||"";fFlightNo.value=f.flightNo||"";fOrigin.value=f.origin||"";fDestination.value=f.destination||"";fDate.value=f.date||"";fDeparture.value=f.departure||"";fArrival.value=f.arrival||"";fConnection.value=f.connection||"";fTerminal.value=f.terminal||"";fSeats.value=f.seats||"";fTickets.value=f.tickets||"";fBaggage.value=f.baggage||"";fPrice.value=f.price||0;fPeople.value=f.people||2;fFees.value=f.fees||0;fLink.value=f.link||"";fNotes.value=f.notes||"";
   deleteFlightBtn.style.display=id?"inline-flex":"none";
   flightDialog.showModal();
 }
 function saveFlight(){
-  const obj={id:editFlight||uid(),segment:fSegment.value,company:fCompany.value,status:fStatus.value,origin:fOrigin.value,destination:fDestination.value,date:fDate.value,departure:fDeparture.value,arrival:fArrival.value,connection:fConnection.value,price:Number(fPrice.value||0),people:Number(fPeople.value||2),fees:Number(fFees.value||0),link:fLink.value,notes:fNotes.value};
+  const obj={id:editFlight||uid(),segment:fSegment.value,company:fCompany.value,status:fStatus.value,locator:fLocator.value,flightNo:fFlightNo.value,origin:fOrigin.value,destination:fDestination.value,date:fDate.value,departure:fDeparture.value,arrival:fArrival.value,connection:fConnection.value,terminal:fTerminal.value,seats:fSeats.value,tickets:fTickets.value,baggage:fBaggage.value,price:Number(fPrice.value||0),people:Number(fPeople.value||2),fees:Number(fFees.value||0),link:fLink.value,notes:fNotes.value};
   state.flights=state.flights||[];
   if(editFlight)state.flights[state.flights.findIndex(x=>x.id===editFlight)]=obj;else state.flights.push(obj);
   flightDialog.close();save();
