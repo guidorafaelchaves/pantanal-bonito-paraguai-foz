@@ -224,6 +224,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
     <div class="mobile-sync-stack">
       <span id="mobileSyncStatus" class="sync-pill">Docs: aguardando</span>
       <button class="primary" onclick="syncAppToDocs()">Sincronizar Docs</button>
+      <button onclick="restoreAppFromDocs()">Baixar Docs</button>
     </div>
   </div>
 
@@ -643,7 +644,7 @@ function load(){
     return s;
   }catch(e){return defaultState()}
 }
-function save(){localStorage.setItem(LS,JSON.stringify(state));renderAll()}
+function save(){state._localUpdatedAt=new Date().toISOString();localStorage.setItem(LS,JSON.stringify(state));renderAll()}
 function routePoints(){const pts=[];state.legs.forEach(l=>{if(l.from&&!pts.includes(l.from))pts.push(l.from);if(l.to&&!pts.includes(l.to))pts.push(l.to)});return pts}
 function mainRouteUrl(){const pts=routePoints();const origin=pts[0]||"Campo Grande, MS",dest=pts[pts.length-1]||"Foz do Iguaçu, PR",wps=pts.slice(1,-1).slice(0,9).join("|");return `https://www.google.com/maps/dir/?api=1&origin=${enc(origin)}&destination=${enc(dest)}&waypoints=${enc(wps)}&travelmode=driving`}
 function iframeUrl(){return `https://maps.google.com/maps?q=${enc(routePoints().join(" to "))}&output=embed`}
@@ -822,7 +823,7 @@ function memBuildUrl(params){const u=new URL(MEM_APPS_SCRIPT_URL);Object.entries
 function memJsonp(params){return new Promise((resolve,reject)=>{const cb="memCb_"+Date.now()+"_"+Math.floor(Math.random()*99999);params.callback=cb;const script=document.createElement("script");script.src=memBuildUrl(params);const t=setTimeout(()=>{cleanup();reject(new Error("Tempo esgotado ao chamar o Apps Script."))},25000);function cleanup(){clearTimeout(t);delete window[cb];if(script.parentNode)script.parentNode.removeChild(script)}window[cb]=(r)=>{cleanup();resolve(r)};script.onerror=()=>{cleanup();reject(new Error("Falha ao carregar resposta do Apps Script."))};document.body.appendChild(script)})}
 function memFillExample(){const examples=["Achei uma passagem MCZ para CGR dia 03/06 por R$ 1.420 por pessoa, com chegada em Campo Grande às 15h40.","Thayná prefere evitar muitas trocas de cidade no Paraguai; talvez Encarnación deva ser base por mais noites.","Carro Localiza com retirada em Campo Grande e devolução em Foz por R$ 5.800, mas falta confirmar autorização para cruzar o Paraguai.","Adicionar Abismo Anhumas como atração obrigatória e manter só uma flutuação épica em Bonito.","Pesquisar hospedagem no Pantanal por duas noites, com comida incluída e passeio de barco."];const f=document.getElementById("memText");if(f)f.value=examples[Math.floor(Math.random()*examples.length)]}
 async function memSaveEntry(){const author=document.getElementById("memAuthor")?.value||"Sem autor";const type=document.getElementById("memType")?.value||"";const pin=document.getElementById("memPin")?.value||"";const field=document.getElementById("memText");let text=(field?.value||"").trim();if(!text){memStatus("Digite uma entrada antes de salvar.","err");return}if(type)text="["+type+"] "+text;memStatus("Salvando no Google Docs e atualizando JSON...");try{const r=await memJsonp({action:"save",pin,author,text});if(!r||!r.ok){memStatus((r&&r.error)||"Erro ao salvar.","err");return}memStatus("Entrada salva com sucesso no Google Docs.","ok");if(field)field.value="";if(r.docUrl)memSetDocLinks(r.docUrl);await memLoadData()}catch(e){memStatus("Erro técnico: "+e.message,"err")}}
-async function memLoadData(){memStatus("Buscando dados já gravados no Google Docs...");try{const r=await memJsonp({action:"read"});if(!r||!r.ok){memStatus((r&&r.error)||"Erro ao ler memória.","err");return}memCurrentData=r.data||{};if(r.docUrl)memSetDocLinks(r.docUrl);memRender(r.data||{});memStatus("Dados carregados do Google Docs.","ok")}catch(e){memStatus("Erro ao carregar dados: "+e.message,"err")}}
+async function memLoadData(){memStatus("Buscando dados já gravados no Google Docs...");try{const r=await memJsonp({action:"read"});if(!r||!r.ok){memStatus((r&&r.error)||"Erro ao ler memória.","err");return}memCurrentData=r.data||{};if(r.docUrl)memSetDocLinks(r.docUrl);memRender(r.data||{});applyCloudStateIfNewer(r.data||{});memStatus("Dados carregados do Google Docs.","ok")}catch(e){memStatus("Erro ao carregar dados: "+e.message,"err")}}
 function memSetDocLinks(href){["memDocLink","memDocLinkTop"].forEach(id=>{const a=document.getElementById(id);if(a)a.href=href})}
 function memRender(data){const entries=Array.isArray(data.entradas)?data.entradas:[];const items=Array.isArray(data.itens)?data.itens:[];const json=document.getElementById("memJson");if(json)json.textContent=JSON.stringify(data,null,2);const cnt=document.getElementById("memCount");if(cnt)cnt.textContent=entries.length;const it=document.getElementById("memItems");if(it)it.textContent=items.length;const up=document.getElementById("memUpdated");if(up)up.textContent=formatMemDate(data?.metadata?.ultimaAtualizacao)||"—";memRenderEntries(entries);memRenderSummary(entries,items);renderGooglePhotoCards()}
 function memRenderEntries(entries){const c=document.getElementById("memEntries");if(!c)return;if(!entries.length){c.innerHTML=`<div class="memory-item"><strong>Nenhuma entrada registrada ainda.</strong><p class="muted">As próximas entradas aparecerão aqui.</p></div>`;return}c.innerHTML=[...entries].reverse().slice(0,16).map(e=>`<div class="memory-item"><small>${formatMemDate(e.data)} · ${safe(e.autor||"Sem autor")}</small><p>${safe(e.texto||"")}</p></div>`).join("")}
@@ -845,6 +846,49 @@ function getSyncPin(){
   if(field&&field.value)return field.value;
   return "2026";
 }
+function getDeviceId(){
+  const key=LS+"_device_id";
+  let id=localStorage.getItem(key);
+  if(!id){id=uid();localStorage.setItem(key,id)}
+  return id;
+}
+function mergeRestoredFiles(restored){
+  const current=Array.isArray(state.files)?state.files:[];
+  restored.files=(restored.files||[]).map(f=>{
+    if(f&&f.storedLocally&&!f.data){
+      const local=current.find(x=>x.id===f.id&&x.data);
+      if(local)return local;
+    }
+    return f;
+  });
+  return restored;
+}
+function applyCloudPayload(payload,reason="auto"){
+  if(!payload||!payload.state)return false;
+  const restored=mergeRestoredFiles(JSON.parse(JSON.stringify(payload.state)));
+  localStorage.setItem(LS+"_before_cloud_restore",JSON.stringify({at:new Date().toISOString(),reason,state}));
+  restored._cloudSavedAt=payload.savedAt||new Date().toISOString();
+  restored._cloudVersion=payload.version||"";
+  restored._cloudDeviceId=payload.deviceId||"";
+  state=restored;
+  localStorage.setItem(LS,JSON.stringify(state));
+  renderAll();
+  setAppSyncStatus("Docs: atualizado","ok");
+  return true;
+}
+function applyCloudStateIfNewer(data){
+  const payload=data&&data.appState&&data.appState.state?data.appState:null;
+  if(!payload||!payload.savedAt)return false;
+  const cloudTime=Date.parse(payload.savedAt)||0;
+  const localCloudTime=Date.parse(state._cloudSavedAt||"")||0;
+  const localEditTime=Date.parse(state._localUpdatedAt||"")||0;
+  if(cloudTime<=localCloudTime)return false;
+  if(localEditTime>localCloudTime&&localEditTime>cloudTime){
+    setAppSyncStatus("Docs: versão nova disponível","warn");
+    return false;
+  }
+  return applyCloudPayload(payload,"newer-cloud");
+}
 function compactStateForDocs(){
   const clean=JSON.parse(JSON.stringify(state||{}));
   clean.files=(clean.files||[]).map(f=>({
@@ -858,6 +902,7 @@ function compactStateForDocs(){
   return {
     version:"rota_epica_v3_equilibrada_sync_docs_v1",
     savedAt:new Date().toISOString(),
+    deviceId:getDeviceId(),
     source:"GitHub Pages - Pantanal Bonito Paraguai Foz",
     state:clean
   };
@@ -894,9 +939,7 @@ async function restoreAppFromDocs(){
     if(!r||!r.ok||!restored){
       throw new Error((r&&r.error)||"Nenhum estado do app encontrado no Google Docs.");
     }
-    state=restored;
-    localStorage.setItem(LS,JSON.stringify(state));
-    renderAll();
+    applyCloudPayload(payload,"manual-restore");
     setAppSyncStatus("Docs: restaurado","ok");
     if(typeof memStatus==="function")memStatus("Estado do app restaurado a partir do Google Docs.","ok");
   }catch(e){
