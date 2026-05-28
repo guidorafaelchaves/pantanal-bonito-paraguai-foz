@@ -1,1 +1,931 @@
-$(cat /mnt/data/index_modified.html)
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rota Épica v3 — Roteiro Equilibrado Campo Grande → Pantanal → Bonito → Paraguai → Foz</title>
+<style>
+:root{
+  --bg:#0b1020;--panel:#111827;--panel2:#182235;--text:#f8fafc;--muted:#a8b3c7;--line:#293449;
+  --accent:#38bdf8;--green:#22c55e;--gold:#f59e0b;--danger:#ef4444;--purple:#a78bfa;
+  --radius:20px;--shadow:0 18px 55px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top left,rgba(56,189,248,.2),transparent 32%),radial-gradient(circle at 80% 10%,rgba(245,158,11,.14),transparent 28%),linear-gradient(180deg,#070b16,#0b1020 45%,#070b16)}
+.app{max-width:1500px;margin:auto;padding:22px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:20px 0 18px}.brand{display:flex;gap:14px;align-items:center}.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#38bdf8,#22c55e);color:#06111f;font-weight:950;font-size:26px;box-shadow:0 14px 35px rgba(56,189,248,.25)}
+h1{font-size:30px;margin:0 0 6px;line-height:1.1}.subtitle{color:var(--muted);font-size:14px;max-width:850px;line-height:1.45}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+button,.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:11px 14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;transition:.18s ease}
+button:hover,.btn:hover{transform:translateY(-1px);border-color:#51617a}.primary{border:0;background:linear-gradient(135deg,#38bdf8,#22c55e);color:#04101d}.gold{border:0;background:linear-gradient(135deg,#f59e0b,#f97316);color:#111827}.danger{background:#2c1216;border-color:#7f1d1d;color:#fecaca}.ghost{background:transparent}
+.tabs{position:sticky;top:0;z-index:10;display:flex;gap:8px;overflow:auto;background:rgba(10,16,30,.82);border:1px solid var(--line);border-radius:18px;padding:8px;backdrop-filter:blur(14px)}.tab{white-space:nowrap;padding:10px 13px;border-radius:13px;color:var(--muted);font-weight:900;cursor:pointer}.tab.active{background:var(--accent);color:#07111f}
+section{display:none;margin-top:18px}section.active{display:block}
+.hero{border:1px solid var(--line);border-radius:26px;padding:22px;background:linear-gradient(135deg,rgba(17,24,39,.95),rgba(9,14,25,.96));box-shadow:var(--shadow)}.quote{font-size:21px;font-weight:950;color:#e0f2fe;margin-bottom:8px}.hero p{color:#cbd5e1;max-width:1000px;line-height:1.6}
+.grid{display:grid;gap:14px}.cols4{grid-template-columns:repeat(4,minmax(0,1fr))}.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(17,24,39,.98),rgba(12,18,31,.98));border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}.metric .label{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.06em}.metric .value{font-size:27px;font-weight:950;margin:6px 0}.metric .note{font-size:12px;color:var(--muted);line-height:1.35}
+h2,h3{margin:0 0 12px}.muted{color:var(--muted)}.small{font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:#0b1220;color:#dbeafe;font-size:12px;font-weight:850}.pill.nature{border-color:#16a34a;color:#bbf7d0}.pill.city{border-color:#38bdf8;color:#bae6fd}.pill.history{border-color:#f59e0b;color:#fde68a}.pill.border{border-color:#a78bfa;color:#ddd6fe}.pill.water{border-color:#06b6d4;color:#cffafe}.pill.road{border-color:#64748b;color:#e2e8f0}.pill.food{border-color:#fb7185;color:#fecdd3}.pill.hotel{border-color:#c084fc;color:#f3e8ff}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:0 0 12px}
+input,select,textarea{width:100%;background:#08111f;color:var(--text);border:1px solid var(--line);border-radius:13px;padding:10px;outline:none}
+textarea{min-height:86px;resize:vertical}label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-weight:850;font-size:12px}.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.form-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}th{color:#dbeafe;background:rgba(255,255,255,.025);position:sticky;top:58px;z-index:2}tr:hover td{background:rgba(255,255,255,.025)}.table-wrap{overflow:auto}
+.timeline{display:grid;gap:12px}.day{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:stretch;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(17,24,39,.75)}.daynum{background:linear-gradient(180deg,#0e7490,#064e3b);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:12px;font-weight:950;text-align:center}.daynum span:first-child{font-size:13px;color:#cbd5e1}.daynum span:last-child{font-size:24px}.daybody{padding:14px}.daytitle{font-size:18px;font-weight:950;margin-bottom:6px}.daymeta{display:flex;gap:8px;flex-wrap:wrap;margin:9px 0}.checks{display:grid;gap:8px;margin-top:10px}.check{display:flex;gap:9px;align-items:flex-start;padding:9px;border:1px solid var(--line);border-radius:13px;background:#0a1220}.check input{width:auto;margin-top:2px}
+.map-frame{width:100%;height:520px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#080d18}iframe{width:100%;height:100%;border:0}.progress{height:14px;background:#09111f;border:1px solid var(--line);border-radius:999px;overflow:hidden}.bar{height:100%;background:linear-gradient(90deg,#38bdf8,#22c55e,#f59e0b);width:0%}
+.alert{padding:12px;border:1px solid var(--line);border-radius:15px;background:#0a1220;margin:8px 0;line-height:1.45}.alert.warn{border-color:#7c4a03;background:#211707}.alert.ok{border-color:#166534;background:#0c1e14}.alert.info{border-color:#075985;background:#081b27}.alert.danger{border-color:#7f1d1d;background:#220f12}
+.route-card{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:12px;background:#0a1220;margin-bottom:10px}.route-icon{width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#22c55e);display:grid;place-items:center;color:#07111f;font-weight:950;flex:0 0 auto}
+.attachment{border:1px solid var(--line);border-radius:14px;padding:10px;background:#0a1220;display:flex;gap:10px;align-items:center;justify-content:space-between}.thumb{width:56px;height:56px;border-radius:12px;object-fit:cover;background:#111827;border:1px solid var(--line)}.mini-card{border:1px solid var(--line);border-radius:16px;padding:12px;background:#0a1220}.right{text-align:right}.footer-note{margin:20px 0;color:var(--muted);font-size:12px;line-height:1.5}
+dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);color:var(--text);width:min(960px,calc(100% - 24px));box-shadow:0 30px 90px rgba(0,0,0,.72)}dialog::backdrop{background:rgba(0,0,0,.72)}
+@media(max-width:900px){header{flex-direction:column}.actions{justify-content:flex-start}.cols4,.cols3,.cols2,.form-grid,.form-grid.two{grid-template-columns:1fr}.day{grid-template-columns:1fr}.daynum{flex-direction:row;gap:8px}th{position:static}.map-frame{height:430px}}
+@media print{.tabs,.actions,button,.btn,dialog{display:none!important}section{display:block!important}.card,.hero,.day{break-inside:avoid}body{background:#fff;color:#000}.card,.hero,.day{box-shadow:none;border-color:#999;background:#fff}.muted,.subtitle{color:#333}}
+
+/* ===== Otimização Mobile v2 ===== */
+.mobile-bottom-nav,.floating-top{display:none}
+.touch-row{display:none}
+@media(max-width:760px){
+  body{background:#070b16}
+  .app{padding:12px 10px 86px}
+  header{padding:12px 0 10px;gap:12px}
+  .logo{width:46px;height:46px;border-radius:15px;font-size:22px}
+  h1{font-size:22px;line-height:1.14}
+  .subtitle{font-size:12px}
+  .actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .actions .btn,.actions button{justify-content:center;min-height:44px;padding:10px 9px;font-size:12px}
+  .tabs{top:0;border-radius:14px;padding:6px;gap:6px;margin:0 -2px 12px}
+  .tab{padding:9px 10px;font-size:12px}
+  .hero{border-radius:18px;padding:14px}
+  .quote{font-size:17px}
+  .hero p{font-size:13px;line-height:1.5}
+  .card{border-radius:16px;padding:13px}
+  .metric .value{font-size:22px}
+  .grid{gap:10px}
+  .day{border-radius:16px}
+  .daybody{padding:12px}
+  .daytitle{font-size:16px}
+  .daymeta{gap:6px}
+  .pill{font-size:11px;padding:5px 8px}
+  .check{padding:10px;border-radius:12px;font-size:13px}
+  .check input{transform:scale(1.22);margin-right:4px}
+  .toolbar{display:grid;grid-template-columns:1fr;gap:9px}
+  input,select,textarea{min-height:44px;font-size:16px}
+  textarea{min-height:110px}
+  label{font-size:12px}
+  dialog{width:calc(100% - 12px);max-height:92vh;overflow:auto;border-radius:18px;padding:14px}
+  dialog h2{font-size:18px}
+  .form-grid,.form-grid.two{grid-template-columns:1fr;gap:10px}
+  .full{grid-column:auto}
+  .map-frame{height:360px;border-radius:16px}
+  .footer-note{font-size:11px;margin-bottom:86px}
+  table,thead,tbody,tr,th,td{display:block}
+  thead{display:none}
+  tr{border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:#0a1220;padding:8px}
+  td{border:0;padding:7px 6px}
+  td:empty{display:none}
+  .table-wrap{overflow:visible}
+  #legsTable td:nth-child(1)::before{content:"Trecho ";color:var(--muted);font-size:11px}
+  #legsTable td:nth-child(3)::before{content:"Distância: ";color:var(--muted);font-size:11px}
+  #legsTable td:nth-child(4)::before{content:"Tempo: ";color:var(--muted);font-size:11px}
+  #budgetTable td:nth-child(3){font-size:18px;font-weight:900;color:#bbf7d0}
+  .route-card{border-radius:14px;padding:10px}
+  .route-icon{width:34px;height:34px;border-radius:12px}
+  .attachment{align-items:flex-start;flex-direction:column}
+  .attachment .actions{display:flex;width:100%;grid-template-columns:none}
+  .attachment .actions .btn,.attachment .actions button{flex:1}
+  .mobile-bottom-nav{
+    position:fixed;left:8px;right:8px;bottom:8px;z-index:50;
+    display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
+    padding:6px;border:1px solid var(--line);border-radius:18px;
+    background:rgba(8,13,24,.94);backdrop-filter:blur(16px);
+    box-shadow:0 18px 45px rgba(0,0,0,.45)
+  }
+  .mobile-bottom-nav button{
+    min-height:50px;padding:6px 4px;border-radius:13px;
+    flex-direction:column;justify-content:center;font-size:16px;gap:1px;
+    background:#0f172a
+  }
+  .mobile-bottom-nav button span{font-size:9px;font-weight:850;color:#cbd5e1}
+  .floating-top{
+    display:block;position:fixed;right:14px;bottom:78px;z-index:51;
+    width:44px;height:44px;border-radius:999px;padding:0;
+    background:linear-gradient(135deg,#38bdf8,#22c55e);color:#04101d;border:0;
+    font-size:20px;font-weight:950;box-shadow:0 10px 25px rgba(0,0,0,.35)
+  }
+}
+@media(max-width:420px){
+  .actions{grid-template-columns:1fr}
+  h1{font-size:20px}
+  .metric .value{font-size:20px}
+  .daynum span:last-child{font-size:20px}
+  .mobile-bottom-nav{left:4px;right:4px;bottom:4px}
+}
+
+
+
+/* ===== Memória Viva — Google Docs + IA ===== */
+.memory-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.memory-status{margin-top:12px;padding:12px;border-radius:15px;background:#0a1220;border:1px solid var(--line);color:var(--muted);line-height:1.45}.memory-status.ok{border-color:#166534;background:#0c1e14;color:#bbf7d0}.memory-status.err{border-color:#7f1d1d;background:#220f12;color:#fecaca}.memory-list{display:grid;gap:10px;max-height:470px;overflow:auto;padding-right:4px}.memory-item{border:1px solid var(--line);border-radius:15px;padding:12px;background:#0a1220}.memory-item strong{display:block;margin-bottom:4px}.memory-item small{color:var(--muted);font-weight:850}.memory-badge{display:inline-flex;margin-bottom:7px;padding:5px 9px;border-radius:999px;background:#0b1220;border:1px solid var(--line);color:#bae6fd;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.05em}.memory-json{max-height:470px;overflow:auto;margin:0;background:#050914;border:1px solid var(--line);border-radius:15px;padding:12px;color:#bbf7d0;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:12px;white-space:pre-wrap}.memory-insight{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}.google-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.google-photo-card{border:1px solid var(--line);border-radius:16px;background:#0a1220;overflow:hidden}.google-photo-card iframe{width:100%;height:190px;border:0;display:block}.google-photo-card .body{padding:12px}.google-photo-card h3{font-size:15px;margin:0 0 5px}.google-photo-card p{margin:0;color:var(--muted);font-size:12px}.memory-ai-note{border-left:4px solid var(--accent);padding:10px 12px;background:#071525;border-radius:12px;color:#dbeafe;margin-top:10px}@media(max-width:900px){.memory-grid,.memory-insight,.google-photo-grid{grid-template-columns:1fr}.google-photo-card iframe{height:230px}}
+
+/* ===== Sincronização do app completo com Google Docs ===== */
+.app-sync-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.app-sync-status{margin-top:12px;padding:12px;border-radius:15px;background:#0a1220;border:1px solid var(--line);color:var(--muted);line-height:1.45}
+.app-sync-status.ok{border-color:#166534;background:#0c1e14;color:#bbf7d0}
+.app-sync-status.err{border-color:#7f1d1d;background:#220f12;color:#fecaca}
+.app-sync-status.warn{border-color:#7c4a03;background:#211707;color:#fde68a}
+.sync-kv{display:grid;grid-template-columns:140px 1fr;gap:8px;font-size:12px;color:var(--muted);margin-top:8px}
+.sync-kv strong{color:#dbeafe}
+@media(max-width:900px){.app-sync-grid{grid-template-columns:1fr}.sync-kv{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="brand"><div class="logo">🧭</div><div><h1 id="tripTitle">Rota Épica Campo Grande → Pantanal → Bonito → Paraguai → Foz</h1><div class="subtitle" id="tripSubtitle">Versão 3 equilibrada: planejador editável para Guido e Thayná, otimizado para celular, com anexos, notas, orçamento, hospedagens, restaurantes e Google Maps.</div></div></div>
+<div class="actions">
+<a class="btn primary" id="fullRouteBtn" target="_blank" rel="noopener">Abrir rota principal</a>
+<button onclick="openTripDialog()">Editar projeto</button>
+<button onclick="exportBackup()" class="gold">Exportar backup</button>
+<label class="btn">Importar backup<input type="file" accept=".json" style="display:none" onchange="importBackup(event)"></label>
+<button onclick="window.print()">Imprimir / PDF</button>
+</div>
+</header>
+
+<nav class="tabs">
+<div class="tab active" onclick="showTab('overview',this)">Visão Geral</div>
+<div class="tab" onclick="showTab('timeline',this)">Roteiro Editável</div>
+<div class="tab" onclick="showTab('legs',this)">Trechos e Maps</div>
+<div class="tab" onclick="showTab('places',this)">Lugares Extras</div>
+<div class="tab" onclick="showTab('files',this)">Arquivos</div>
+<div class="tab" onclick="showTab('budget',this)">Orçamento</div>
+<div class="tab" onclick="showTab('flights',this)">Parte Aérea</div>
+<div class="tab" onclick="showTab('rental',this)">Aluguel do Carro</div>
+<div class="tab" onclick="showTab('memoria',this)">Memória Viva</div>
+<div class="tab" onclick="showTab('map',this)">Mapa</div>
+<div class="tab" onclick="showTab('checklist',this)">Checklist</div>
+</nav>
+
+<section id="overview" class="active">
+<div class="hero"><div class="quote">Uma travessia lenta, agradável, editável e cinematográfica.</div><p id="tripDescription"></p><div class="daymeta"><span class="pill nature">Natureza</span><span class="pill water">Águas cristalinas</span><span class="pill history">História</span><span class="pill border">Fronteiras</span><span class="pill road">Estrada cênica</span><span class="pill hotel">Planejamento flexível</span></div></div>
+<div class="grid cols4" style="margin-top:14px">
+<div class="card metric"><div class="label">Duração</div><div class="value" id="mDays">21 dias</div><div class="note">Editável no roteiro.</div></div>
+<div class="card metric"><div class="label">Distância estimada</div><div class="value" id="mKm">≈ 2.450 km</div><div class="note">Soma aproximada dos trechos cadastrados.</div></div>
+<div class="card metric"><div class="label">Orçamento lançado</div><div class="value" id="mBudget">R$ 0,00</div><div class="note">Hospedagem, carro, passeios, alimentação e extras.</div></div>
+<div class="card metric"><div class="label">Checkpoints</div><div class="value" id="mProgress">0%</div><div class="note" id="progressText">0 de 0 concluídos.</div></div>
+</div>
+<div class="grid cols2" style="margin-top:14px">
+<div class="card"><h2>Progresso geral</h2><div class="progress"><div class="bar" id="progressBar"></div></div><div class="alert info">Tudo fica salvo no navegador. Use “Exportar backup” para enviar para Thayná ou guardar cópia.</div></div>
+<div class="card"><h2>Cuidados críticos</h2><div class="alert warn"><strong>Carro alugado:</strong> confirmar autorização expressa para cruzar Paraguai, seguro internacional/carta verde e devolução em Foz.</div><div class="alert warn"><strong>Fronteiras:</strong> RG/passaporte, CNH, documento do carro, autorização e seguro.</div><div class="alert warn"><strong>Estrada:</strong> evitar dirigir à noite nos trechos rurais e longos.</div></div>
+</div>
+<div class="card" style="margin-top:14px"><h2>Sequência principal</h2><div id="routeSummary"></div></div>
+</section>
+
+<section id="timeline">
+<div class="toolbar">
+<button class="primary" onclick="openDayDialog()">+ Novo dia</button>
+<label>Filtrar base<select id="baseFilter" onchange="renderTimeline()"><option value="all">Todas</option></select></label>
+<label>Tipo<select id="typeFilter" onchange="renderTimeline()"><option value="all">Todos</option><option value="nature">Natureza</option><option value="water">Água</option><option value="history">História</option><option value="city">Cidade</option><option value="border">Fronteira</option><option value="road">Estrada</option><option value="food">Gastronomia</option><option value="hotel">Hospedagem</option></select></label>
+<button onclick="renumberDays()">Reordenar dias</button>
+</div>
+<div class="timeline" id="timelineBox"></div>
+</section>
+
+<section id="legs">
+<div class="toolbar"><button class="primary" onclick="openLegDialog()">+ Novo trecho</button></div>
+<div class="card"><h2>Trechos de carro com Google Maps</h2><p class="muted">Cada trecho é editável e abre direto no Google Maps.</p><div class="table-wrap"><table id="legsTable"></table></div></div>
+</section>
+
+<section id="places">
+<div class="toolbar"><button class="primary" onclick="openPlaceDialog()">+ Lugar extra</button><label>Categoria<select id="placeFilter" onchange="renderPlaces()"><option value="all">Todas</option><option value="hotel">Hospedagem</option><option value="food">Restaurante</option><option value="nature">Natureza</option><option value="history">História</option><option value="city">Cidade</option><option value="border">Fronteira</option></select></label></div>
+<div class="grid cols3" id="placesBox"></div>
+</section>
+
+<section id="files">
+<div class="grid cols2">
+<div class="card"><h2>Adicionar arquivo</h2><p class="muted">Use para guardar prints, reservas, PDFs, fotos, comprovantes, mapas, documentos da locadora e ideias. Arquivos ficam salvos localmente no navegador; exporte backup para preservar.</p><label class="btn primary">Selecionar arquivos<input type="file" multiple style="display:none" onchange="addFiles(event)"></label></div>
+<div class="card"><h2>Notas compartilháveis</h2><label>Anotação geral<textarea id="generalNotes" oninput="saveNotes()" placeholder="Ideias de Guido e Thayná, preferências, dúvidas, pendências..."></textarea></label></div>
+</div>
+<div class="grid cols3" id="filesBox" style="margin-top:14px"></div>
+</section>
+
+<section id="budget">
+<div class="toolbar"><button class="primary" onclick="openBudgetDialog()">+ Despesa / estimativa</button></div>
+<div class="grid cols4">
+<div class="card metric"><div class="label">Total</div><div class="value" id="bTotal">R$ 0,00</div></div>
+<div class="card metric"><div class="label">Por pessoa</div><div class="value" id="bPerPerson">R$ 0,00</div><div class="note">Considerando 2 pessoas.</div></div>
+<div class="card metric"><div class="label">Por dia</div><div class="value" id="bPerDay">R$ 0,00</div></div>
+<div class="card metric"><div class="label">Categorias</div><div class="value" id="bCats">0</div></div>
+</div>
+<div class="grid cols2" style="margin-top:14px">
+<div class="card"><h2>Resumo por categoria</h2><div id="budgetSummary"></div></div>
+<div class="card"><h2>Lançamentos</h2><div class="table-wrap"><table id="budgetTable"></table></div></div>
+</div>
+</section>
+
+
+<section id="flights">
+<div class="hero">
+  <div class="quote">Parte aérea: entrar por Campo Grande e voltar por Foz.</div>
+  <p>
+    Registre aqui as alternativas de voo para a lógica open-jaw da viagem: Maceió → Campo Grande na ida e Foz do Iguaçu → Maceió na volta. Você pode comparar companhias, conexões, bagagem, horários, preço por pessoa, taxas e status de compra.
+  </p>
+</div>
+<div class="toolbar" style="margin-top:14px">
+  <button class="primary" onclick="openFlightDialog()">+ Novo voo / cotação</button>
+  <label>Filtrar trecho
+    <select id="flightFilter" onchange="renderFlights()">
+      <option value="all">Todos</option>
+      <option value="ida">Ida MCZ → CGR</option>
+      <option value="volta">Volta IGU → MCZ</option>
+      <option value="alternativo">Alternativo</option>
+    </select>
+  </label>
+</div>
+<div class="grid cols4">
+  <div class="card metric"><div class="label">Menor ida</div><div class="value" id="fBestOut">R$ 0,00</div><div class="note">Melhor cotação marcada para ida.</div></div>
+  <div class="card metric"><div class="label">Menor volta</div><div class="value" id="fBestBack">R$ 0,00</div><div class="note">Melhor cotação marcada para volta.</div></div>
+  <div class="card metric"><div class="label">Total casal estimado</div><div class="value" id="fCoupleTotal">R$ 0,00</div><div class="note">Melhor ida + melhor volta, considerando 2 pessoas.</div></div>
+  <div class="card metric"><div class="label">Cotações salvas</div><div class="value" id="fCount">0</div><div class="note">Registros editáveis.</div></div>
+</div>
+<div class="grid cols2" style="margin-top:14px">
+  <div class="card">
+    <h2>Resumo estratégico</h2>
+    <div id="flightSummary"></div>
+  </div>
+  <div class="card">
+    <h2>Critérios de decisão</h2>
+    <div class="alert info"><strong>Alvo ideal:</strong> comprar como multidestinos: MCZ → CGR e IGU → MCZ.</div>
+    <div class="alert info"><strong>Conexão segura:</strong> preferir conexões domésticas com 1h30 ou mais.</div>
+    <div class="alert warn"><strong>Preço final:</strong> comparar com bagagem, assento, taxas e horário, não apenas tarifa básica.</div>
+  </div>
+</div>
+<div class="card" style="margin-top:14px">
+  <h2>Cotações aéreas</h2>
+  <div class="table-wrap"><table id="flightsTable"></table></div>
+</div>
+</section>
+
+<section id="rental">
+<div class="hero">
+  <div class="quote">Aluguel do carro: retirar em Campo Grande e devolver em Foz.</div>
+  <p>
+    Registre aqui as cotações de locadoras, comparadores, categoria do carro, taxa de retorno, seguro, autorização para cruzar o Paraguai, carta verde, franquia, km livre e custo total. Essa seção foi pensada para comparar o custo real da travessia, não apenas a diária.
+  </p>
+</div>
+<div class="toolbar" style="margin-top:14px">
+  <button class="primary" onclick="openRentalDialog()">+ Nova cotação de carro</button>
+  <label>Filtrar status
+    <select id="rentalFilter" onchange="renderRental()">
+      <option value="all">Todos</option>
+      <option value="cotacao">Cotação</option>
+      <option value="favorito">Favorito</option>
+      <option value="reservado">Reservado</option>
+      <option value="descartado">Descartado</option>
+    </select>
+  </label>
+</div>
+<div class="grid cols4">
+  <div class="card metric"><div class="label">Menor total</div><div class="value" id="rBest">R$ 0,00</div><div class="note">Menor custo total cadastrado.</div></div>
+  <div class="card metric"><div class="label">Média diária</div><div class="value" id="rDaily">R$ 0,00</div><div class="note">Do melhor custo total.</div></div>
+  <div class="card metric"><div class="label">Taxa de retorno</div><div class="value" id="rReturnFee">R$ 0,00</div><div class="note">Na melhor cotação.</div></div>
+  <div class="card metric"><div class="label">Cotações salvas</div><div class="value" id="rCount">0</div><div class="note">Registros editáveis.</div></div>
+</div>
+<div class="grid cols2" style="margin-top:14px">
+  <div class="card">
+    <h2>Resumo estratégico</h2>
+    <div id="rentalSummary"></div>
+  </div>
+  <div class="card">
+    <h2>Checklist específico do carro</h2>
+    <div class="alert warn"><strong>Obrigatório:</strong> autorização da locadora para atravessar ao Paraguai.</div>
+    <div class="alert warn"><strong>Verificar:</strong> seguro internacional/carta verde, cobertura contra terceiros, franquia e assistência 24h.</div>
+    <div class="alert info"><strong>Comparação correta:</strong> diária + taxa de retorno + seguros + condutor adicional + pedágios/combustível estimado.</div>
+  </div>
+</div>
+<div class="card" style="margin-top:14px">
+  <h2>Cotações de aluguel</h2>
+  <div class="table-wrap"><table id="rentalTable"></table></div>
+</div>
+</section>
+
+
+
+<section id="memoria">
+<div class="hero">
+  <div class="quote">Memória Viva: Google Docs, JSON e camada de IA.</div>
+  <p>
+    Esta aba mantém a estética e a lógica original do site, mas acrescenta uma memória sincronizada: você e Thayná podem escrever qualquer informação da viagem, salvar no Google Docs, atualizar o JSON e trazer os dados já gravados de volta para o painel. A próxima evolução é ativar a OpenAI no Apps Script para transformar cada entrada em datas, valores, decisões, pendências e resumo estratégico.
+  </p>
+  <div class="daymeta"><span class="pill nature">Google Docs</span><span class="pill water">JSON vivo</span><span class="pill history">IA preparada</span><span class="pill border">Sincronizado</span></div>
+</div>
+
+<div class="memory-insight">
+  <div class="card metric"><div class="label">Entradas no Docs</div><div class="value" id="memCount">0</div><div class="note">Textos salvos por Guido e Thayná.</div></div>
+  <div class="card metric"><div class="label">Itens classificados</div><div class="value" id="memItems">0</div><div class="note">Passagens, carro, roteiro, custos etc.</div></div>
+  <div class="card metric"><div class="label">Última atualização</div><div class="value" id="memUpdated">—</div><div class="note">Vinda do JSON central.</div></div>
+  <div class="card metric"><div class="label">Documento</div><div class="value">Docs</div><div class="note"><a id="memDocLinkTop" class="btn" target="_blank" rel="noopener" href="https://docs.google.com/document/d/1ihAnHmxwP_U6Rbmwma3SytC73FthG60KuzV1QRCsCdQ/edit">Abrir</a></div></div>
+</div>
+
+<div class="memory-grid" style="margin-top:14px">
+  <div class="card">
+    <h2>Nova entrada livre</h2>
+    <p class="muted">Escreva naturalmente. O Apps Script grava no Google Docs e atualiza o bloco JSON. O PIN atual é o mesmo que testamos.</p>
+    <div class="form-grid">
+      <label>Autor<select id="memAuthor"><option value="Guido">Guido</option><option value="Thayná">Thayná</option></select></label>
+      <label>Tipo sugerido<select id="memType"><option value="">Texto livre</option><option value="passagem">Passagem aérea</option><option value="aluguel_carro">Aluguel de carro</option><option value="hospedagem">Hospedagem</option><option value="custo">Custo</option><option value="roteiro">Roteiro</option><option value="preferencia">Preferência</option><option value="pendencia">Pendência</option></select></label>
+      <label>PIN<input id="memPin" type="password" value="2026"></label>
+      <label class="full">Entrada<textarea id="memText" placeholder="Ex.: Achei voo MCZ → CGR dia 03/06 por R$ 1.420 por pessoa, chegando 15h40. Ou: Thayná prefere reduzir trocas de cidade no Paraguai."></textarea></label>
+    </div>
+    <div class="actions" style="justify-content:flex-start;margin-top:12px">
+      <button class="primary" onclick="memSaveEntry()">Salvar no Google Docs</button>
+      <button onclick="memLoadData()">Atualizar dados</button>
+      <button class="ghost" onclick="memFillExample()">Exemplo</button>
+      <a id="memDocLink" class="btn" target="_blank" rel="noopener" href="https://docs.google.com/document/d/1ihAnHmxwP_U6Rbmwma3SytC73FthG60KuzV1QRCsCdQ/edit">Abrir Google Docs</a>
+    </div>
+    <div id="memStatus" class="memory-status">Sistema pronto para gravar no Google Docs da viagem.</div>
+    <div class="memory-ai-note"><strong>Camada de IA:</strong> a interface já está pronta para GPT. Nesta versão, a IA ainda está preparada visualmente; a extração profunda entra na próxima atualização do Código.gs.</div>
+  </div>
+
+  <div class="card">
+    <h2>Leitura da memória</h2>
+    <p class="muted">Resumo dos registros que já estão no Google Docs.</p>
+    <div id="memSummary" class="memory-list"><div class="memory-item"><span class="memory-badge">aguardando</span><strong>Aguardando leitura</strong><p class="muted">Clique em “Atualizar dados”.</p></div></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h2>Sincronização do app completo</h2>
+  <p class="muted">
+    Use esta área para gravar no Google Docs o estado completo do planejador: roteiro editável, trechos, lugares, orçamento, parte aérea, aluguel do carro, checklist e notas.
+    Os anexos pesados em base64 não são enviados para evitar travar a URL; eles continuam preservados no navegador e no backup local.
+  </p>
+  <div class="app-sync-grid">
+    <div class="mini-card">
+      <h3>Enviar alterações</h3>
+      <p class="muted small">Salva o estado atual do app no Google Docs via Apps Script.</p>
+      <button class="primary" onclick="appSyncSaveNow()">Salvar app no Google Docs</button>
+    </div>
+    <div class="mini-card">
+      <h3>Restaurar estado</h3>
+      <p class="muted small">Busca o último pacote salvo no Google Docs e aplica neste navegador.</p>
+      <button onclick="appSyncLoadLatest()">Restaurar do Google Docs</button>
+    </div>
+    <div class="mini-card">
+      <h3>Auto-sync</h3>
+      <p class="muted small">Quando ativo, agenda um envio automático após alterações locais.</p>
+      <label class="check"><input id="appSyncAuto" type="checkbox" onchange="appSyncSetAuto(this.checked)"> <span>Sincronizar automaticamente</span></label>
+    </div>
+  </div>
+  <div id="appSyncStatus" class="app-sync-status">Sincronização pronta. Primeiro valide que o Apps Script aceita as ações <strong>save_app_state</strong> e <strong>read_app_state</strong>.</div>
+  <div class="sync-kv">
+    <strong>Último envio local:</strong><span id="appSyncLastLocal">—</span>
+    <strong>Último pacote lido:</strong><span id="appSyncLastRemote">—</span>
+    <strong>Modo:</strong><span id="appSyncMode">manual</span>
+  </div>
+</div>
+
+<div class="grid cols2" style="margin-top:14px">
+  <div class="card"><h2>Entradas recentes</h2><div id="memEntries" class="memory-list"><div class="memory-item"><strong>Nenhuma entrada carregada ainda.</strong><p class="muted">As entradas do Google Docs aparecerão aqui.</p></div></div></div>
+  <div class="card"><h2>JSON vindo do Google Docs</h2><pre id="memJson" class="memory-json">{}</pre></div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h2>Fotos e pontos do Google Maps</h2>
+  <p class="muted">Mantive a integração com Google Maps. Para fotos “vindas do Google”, o caminho seguro sem chave paga é expor cartões com busca/iframe do Google Maps e botões de fotos do Maps. A incorporação direta de fotos do Google Places exige API Key e faturamento.</p>
+  <div id="googlePhotoCards" class="google-photo-grid"></div>
+</div>
+</section>
+
+<section id="map">
+<div class="grid cols2">
+<div class="card"><h2>Mapa geral integrado</h2><p class="muted">Para navegação real, use os trechos individuais. A rota geral do Google pode limitar paradas.</p><div class="actions" style="justify-content:flex-start"><a class="btn primary" id="mapOpenBtn" target="_blank" rel="noopener">Abrir rota principal</a><a class="btn" id="mapsSearchBtn" target="_blank" rel="noopener">Buscar pontos</a></div></div>
+<div class="card"><h2>Como usar no celular</h2><div class="alert ok"><strong>Use por trechos:</strong> no dia da viagem, abra o botão do trecho exato.</div><div class="alert info">Para compartilhar com Thayná: exporte o backup JSON e envie junto com este HTML.</div></div>
+</div>
+<div class="map-frame" style="margin-top:14px"><iframe id="mapFrame" loading="lazy"></iframe></div>
+</section>
+
+<section id="checklist">
+<div class="grid cols2"><div class="card"><h2>Checklist documental e carro</h2><div id="docChecklist" class="checks"></div></div><div class="card"><h2>Checklist de viagem</h2><div id="travelChecklist" class="checks"></div></div></div>
+</section>
+
+
+<div class="mobile-bottom-nav" aria-label="Navegação rápida mobile">
+  <button type="button" onclick="showTabById('overview')">🏠<span>Geral</span></button>
+  <button type="button" onclick="showTabById('timeline')">🗓️<span>Dias</span></button>
+  <button type="button" onclick="showTabById('legs')">🧭<span>Rotas</span></button>
+  <button type="button" onclick="showTabById('files')">📎<span>Arquivos</span></button>
+  <button type="button" onclick="showTabById('flights')">✈️<span>Aéreo</span></button>
+  <button type="button" onclick="showTabById('rental')">🚗<span>Carro</span></button>
+  <button type="button" onclick="showTabById('memoria')">🧠<span>Memória</span></button>
+</div>
+<button class="floating-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="footer-note">v3 equilibrada editável — dados salvos localmente no navegador via localStorage. Para não perder, use Exportar backup. Distâncias são estimativas e devem ser conferidas no Google Maps no dia.</div>
+</div>
+
+<dialog id="dayDialog"><form method="dialog" onsubmit="event.preventDefault();saveDay()"><h2 id="dayDialogTitle">Dia</h2><div class="form-grid">
+<label>Dia<input id="dDay" type="number" step="1"></label><label>Base<input id="dBase"></label><label>Pernoite<input id="dSleep"></label>
+<label class="full">Título<input id="dTitle"></label><label>Direção / distância<input id="dDrive"></label><label>Tipos separados por vírgula<input id="dTypes" placeholder="road,nature,water"></label>
+<label class="full">Checkpoints / atividades, uma por linha<textarea id="dHighlights"></textarea></label><label class="full">Notas do dia<textarea id="dNotes"></textarea></label></div><div class="actions" style="justify-content:flex-start;margin-top:14px"><button class="primary" type="submit">Salvar</button><button type="button" onclick="dayDialog.close()">Cancelar</button><button type="button" class="danger" id="deleteDayBtn" onclick="deleteDay()">Excluir</button></div></form></dialog>
+
+<dialog id="legDialog"><form method="dialog" onsubmit="event.preventDefault();saveLeg()"><h2 id="legDialogTitle">Trecho</h2><div class="form-grid two"><label>Origem<input id="lFrom"></label><label>Destino<input id="lTo"></label><label>Km estimado<input id="lKm"></label><label>Tempo estimado<input id="lTime"></label><label class="full">Observação<textarea id="lNote"></textarea></label></div><div class="actions" style="justify-content:flex-start;margin-top:14px"><button class="primary" type="submit">Salvar</button><button type="button" onclick="legDialog.close()">Cancelar</button><button type="button" class="danger" id="deleteLegBtn" onclick="deleteLeg()">Excluir</button></div></form></dialog>
+
+<dialog id="placeDialog"><form method="dialog" onsubmit="event.preventDefault();savePlace()"><h2 id="placeDialogTitle">Lugar extra</h2><div class="form-grid"><label>Nome<input id="pName"></label><label>Cidade/base<input id="pBase"></label><label>Categoria<select id="pCat"><option value="hotel">Hospedagem</option><option value="food">Restaurante</option><option value="nature">Natureza</option><option value="history">História</option><option value="city">Cidade</option><option value="border">Fronteira</option></select></label><label class="full">Endereço ou busca Google<input id="pQuery"></label><label class="full">Notas<textarea id="pNotes"></textarea></label></div><div class="actions" style="justify-content:flex-start;margin-top:14px"><button class="primary" type="submit">Salvar</button><button type="button" onclick="placeDialog.close()">Cancelar</button><button type="button" class="danger" id="deletePlaceBtn" onclick="deletePlace()">Excluir</button></div></form></dialog>
+
+<dialog id="budgetDialog"><form method="dialog" onsubmit="event.preventDefault();saveBudget()"><h2 id="budgetDialogTitle">Despesa / estimativa</h2><div class="form-grid"><label>Descrição<input id="bDesc"></label><label>Categoria<select id="bCat"><option>Hospedagem</option><option>Carro</option><option>Combustível</option><option>Passeios</option><option>Alimentação</option><option>Compras</option><option>Seguro/Documentos</option><option>Extras</option></select></label><label>Valor R$<input id="bVal" type="number" step="0.01"></label><label class="full">Observação<textarea id="bNote"></textarea></label></div><div class="actions" style="justify-content:flex-start;margin-top:14px"><button class="primary" type="submit">Salvar</button><button type="button" onclick="budgetDialog.close()">Cancelar</button><button type="button" class="danger" id="deleteBudgetBtn" onclick="deleteBudget()">Excluir</button></div></form></dialog>
+
+
+<dialog id="flightDialog"><form method="dialog" onsubmit="event.preventDefault();saveFlight()">
+<h2 id="flightDialogTitle">Cotação aérea</h2>
+<div class="form-grid">
+  <label>Trecho
+    <select id="fSegment">
+      <option value="ida">Ida MCZ → CGR</option>
+      <option value="volta">Volta IGU → MCZ</option>
+      <option value="alternativo">Alternativo</option>
+    </select>
+  </label>
+  <label>Companhia / agência<input id="fCompany" placeholder="Azul, LATAM, GOL, Decolar..."></label>
+  <label>Status
+    <select id="fStatus">
+      <option value="cotacao">Cotação</option>
+      <option value="favorito">Favorito</option>
+      <option value="comprado">Comprado</option>
+      <option value="descartado">Descartado</option>
+    </select>
+  </label>
+  <label>Origem<input id="fOrigin" placeholder="MCZ"></label>
+  <label>Destino<input id="fDestination" placeholder="CGR"></label>
+  <label>Data<input id="fDate" type="date"></label>
+  <label>Saída<input id="fDeparture" type="time"></label>
+  <label>Chegada<input id="fArrival" type="time"></label>
+  <label>Conexão / hub<input id="fConnection" placeholder="VCP, GRU, BSB, CNF..."></label>
+  <label>Preço por pessoa R$<input id="fPrice" type="number" step="0.01"></label>
+  <label>Nº pessoas<input id="fPeople" type="number" step="1" value="2"></label>
+  <label>Bagagem / taxas R$<input id="fFees" type="number" step="0.01"></label>
+  <label class="full">Link da cotação<input id="fLink" placeholder="Cole aqui o link da companhia/agência"></label>
+  <label class="full">Observações<textarea id="fNotes" placeholder="Conexão, bagagem, tarifa, assentos, flexibilidade, pontos/milhas..."></textarea></label>
+</div>
+<div class="actions" style="justify-content:flex-start;margin-top:14px">
+  <button class="primary" type="submit">Salvar</button>
+  <button type="button" onclick="flightDialog.close()">Cancelar</button>
+  <button type="button" class="danger" id="deleteFlightBtn" onclick="deleteFlight()">Excluir</button>
+</div>
+</form></dialog>
+
+<dialog id="rentalDialog"><form method="dialog" onsubmit="event.preventDefault();saveRental()">
+<h2 id="rentalDialogTitle">Cotação de aluguel do carro</h2>
+<div class="form-grid">
+  <label>Locadora / comparador<input id="rCompany" placeholder="Localiza, Movida, Unidas, Rentcars..."></label>
+  <label>Status
+    <select id="rStatus">
+      <option value="cotacao">Cotação</option>
+      <option value="favorito">Favorito</option>
+      <option value="reservado">Reservado</option>
+      <option value="descartado">Descartado</option>
+    </select>
+  </label>
+  <label>Categoria / modelo<input id="rCar" placeholder="SUV compacto, sedan, automático..."></label>
+  <label>Retirada<input id="rPickup" placeholder="Campo Grande/CGR"></label>
+  <label>Devolução<input id="rDropoff" placeholder="Foz do Iguaçu/IGU"></label>
+  <label>Dias<input id="rDays" type="number" step="1" value="22"></label>
+  <label>Diária R$<input id="rDailyInput" type="number" step="0.01"></label>
+  <label>Taxa de retorno R$<input id="rReturnFeeInput" type="number" step="0.01"></label>
+  <label>Seguros R$<input id="rInsurance" type="number" step="0.01"></label>
+  <label>Condutor adicional R$<input id="rDriver" type="number" step="0.01"></label>
+  <label>Outras taxas R$<input id="rOther" type="number" step="0.01"></label>
+  <label>Autorização Paraguai?
+    <select id="rParaguay">
+      <option value="pendente">Pendente</option>
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+      <option value="nao_informado">Não informado</option>
+    </select>
+  </label>
+  <label>Carta Verde / seguro internacional?
+    <select id="rGreenCard">
+      <option value="pendente">Pendente</option>
+      <option value="incluido">Incluído</option>
+      <option value="extra">Extra</option>
+      <option value="nao">Não</option>
+    </select>
+  </label>
+  <label>Km livre?
+    <select id="rKm">
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+      <option value="nao_informado">Não informado</option>
+    </select>
+  </label>
+  <label class="full">Link da cotação<input id="rLink" placeholder="Cole aqui o link da locadora/comparador"></label>
+  <label class="full">Observações<textarea id="rNotes" placeholder="Franquia, assistência 24h, caução, política de fronteira, pneus, seguro, retirada/devolução..."></textarea></label>
+</div>
+<div class="actions" style="justify-content:flex-start;margin-top:14px">
+  <button class="primary" type="submit">Salvar</button>
+  <button type="button" onclick="rentalDialog.close()">Cancelar</button>
+  <button type="button" class="danger" id="deleteRentalBtn" onclick="deleteRental()">Excluir</button>
+</div>
+</form></dialog>
+
+
+<dialog id="tripDialog"><form method="dialog" onsubmit="event.preventDefault();saveTrip()"><h2>Editar projeto</h2><div class="form-grid two"><label>Título<input id="tTitle"></label><label>Subtítulo<input id="tSubtitle"></label><label class="full">Descrição<textarea id="tDescription"></textarea></label></div><div class="actions" style="justify-content:flex-start;margin-top:14px"><button class="primary" type="submit">Salvar</button><button type="button" onclick="tripDialog.close()">Cancelar</button><button type="button" class="danger" onclick="resetAll()">Restaurar padrão</button></div></form></dialog>
+
+<script>
+const LS="rota_epica_v3_equilibrada";
+function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function enc(s){return encodeURIComponent(s||"")}function mapsDir(from,to){return `https://www.google.com/maps/dir/?api=1&origin=${enc(from)}&destination=${enc(to)}&travelmode=driving`}function mapsSearch(q){return `https://www.google.com/maps/search/?api=1&query=${enc(q)}`}function safe(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+function brl(n){return Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+const defaultState=()=>({
+trip:{title:"Rota Épica Campo Grande → Pantanal → Bonito → Paraguai → Foz",subtitle:"Versão 3 equilibrada: Pantanal primeiro, Bonito enxuto e épico, Paraguai com mais peso turístico, Foz como clímax final.",description:"Roteiro reestruturado para ficar mais lógico e equilibrado: chegada por Campo Grande, abertura no Pantanal Sul, descida para Bonito com Gruta do Lago Azul, um rio épico de flutuação e Abismo Anhumas, depois Ponta Porã/Pedro Juan, Paraguai profundo, Assunção, Encarnación, Missões Jesuíticas, Saltos del Monday e Foz do Iguaçu."},
+days:[
+{ id:uid(), day:1, base:"Campo Grande", type:["city"], title:"Chegada em Campo Grande", drive:"Leve", sleep:"Campo Grande", highlights:["Chegada e descanso","Parque das Nações Indígenas","Mercadão Municipal","Jantar regional","Organizar documentos, carro e rota"], notes:"Dia leve para entrar no ritmo da viagem sem pressa." },
+{ id:uid(), day:2, base:"Pantanal", type:["road","nature"], title:"Campo Grande → Pantanal Sul", drive:"130–220 km / 2h–3h30", sleep:"Fazenda ou pousada pantaneira", highlights:["Saída tranquila de Campo Grande","Chegada à fazenda pantaneira","Pôr do sol no Pantanal","Jantar pantaneiro","Primeira observação de fauna"], notes:"A viagem começa pelo Pantanal para evitar zigue-zague e abrir com natureza selvagem." },
+{ id:uid(), day:3, base:"Pantanal", type:["nature"], title:"Pantanal: safári fotográfico + barco", drive:"Interno", sleep:"Fazenda ou pousada pantaneira", highlights:["Safári fotográfico pela manhã","Passeio de barco","Observação de aves","Jacarés, capivaras, tuiuiús e araras","Focagem noturna opcional"], notes:"Dia essencial para viver o Pantanal de verdade." },
+{ id:uid(), day:4, base:"Pantanal", type:["nature"], title:"Pantanal: cavalgada, trilha e contemplação", drive:"Interno", sleep:"Fazenda ou pousada pantaneira", highlights:["Cavalgada ou trilha guiada","Tempo livre para fotografia","Pausa real sem correria","Segundo pôr do sol pantaneiro","Focagem noturna, se ainda não tiver feito"], notes:"Mantém o Pantanal com peso próprio e não apenas como passagem." },
+{ id:uid(), day:5, base:"Bonito", type:["road","water","nature"], title:"Pantanal Sul → Bonito", drive:"130–200 km / 2h–3h30", sleep:"Bonito", highlights:["Saída sem pressa do Pantanal","Chegada a Bonito","Check-in e descanso","Jantar no centro","Confirmar passeios de Bonito"], notes:"Transição da fauna pantaneira para as águas cristalinas." },
+{ id:uid(), day:6, base:"Bonito", type:["water","nature"], title:"Bonito: Gruta do Lago Azul + tarde leve", drive:"40–60 km internos", sleep:"Bonito", highlights:["Gruta do Lago Azul","Tarde livre ou passeio leve","Centro de Bonito","Café ou jantar tranquilo","Preparação para a flutuação"], notes:"Dia visual e clássico, sem empilhar passeio pesado." },
+{ id:uid(), day:7, base:"Bonito", type:["water","nature"], title:"Bonito: Rio da Prata — flutuação épica", drive:"100–120 km internos", sleep:"Bonito", highlights:["Flutuação no Rio da Prata","Experiência de aquário natural","Peixes e vegetação subaquática","Fotografia subaquática","Tarde/noite de descanso"], notes:"Mantemos apenas um rio épico de flutuação para evitar repetição e preservar equilíbrio." },
+{ id:uid(), day:8, base:"Bonito", type:["nature","water"], title:"Bonito: Abismo Anhumas", drive:"50–70 km internos", sleep:"Bonito", highlights:["Abismo Anhumas","Caverna e lago subterrâneo","Experiência rara e cinematográfica","Jantar leve em Bonito","Dormir em Bonito após o passeio"], notes:"Abismo Anhumas entra como o ápice de Bonito. Não forçar estrada longa no mesmo dia." },
+{ id:uid(), day:9, base:"Ponta Porã", type:["road","border"], title:"Bonito → Ponta Porã / Pedro Juan Caballero", drive:"340–380 km / 5h–6h30", sleep:"Ponta Porã ou Pedro Juan", highlights:["Saída de Bonito pela manhã","Chegada à fronteira com luz do dia","Fronteira seca","Jantar e descanso","Preparar entrada no Paraguai"], notes:"Dia de deslocamento estratégico para iniciar o Paraguai com calma no dia seguinte." },
+{ id:uid(), day:10, base:"Concepción", type:["history","nature","border"], title:"Pedro Juan → Cerro Corá → Concepción", drive:"200–230 km", sleep:"Concepción", highlights:["Pedro Juan Caballero","Parque Nacional Cerro Corá","História da Guerra do Paraguai","Natureza e trilhas curtas","Chegada a Concepción"], notes:"Primeiro grande dia do Paraguai profundo." },
+{ id:uid(), day:11, base:"Concepción", type:["city","history"], title:"Concepción: interior paraguaio e Rio Paraguai", drive:"Urbano / leve", sleep:"Concepción", highlights:["Centro de Concepción","Margem do Rio Paraguai","Arquitetura e cidade antiga","Pôr do sol ribeirinho","Dia mais lento e autêntico"], notes:"Dá dignidade ao Paraguai e evita que Concepción seja apenas dormitório." },
+{ id:uid(), day:12, base:"San Bernardino", type:["road","water"], title:"Concepción → San Bernardino / Lago Ypacaraí", drive:"410–450 km / 6h30–8h", sleep:"San Bernardino", highlights:["Saída cedo de Concepción","Chegada ao Lago Ypacaraí","Costanera de San Bernardino","Pôr do sol no lago","Jantar leve"], notes:"Trecho longo, mas recompensado por um fim de tarde bonito e calmo." },
+{ id:uid(), day:13, base:"Areguá / Assunção", type:["city","history"], title:"San Bernardino → Areguá → Assunção", drive:"70–90 km", sleep:"Assunção", highlights:["Manhã em San Bernardino","Areguá e suas cerâmicas","Igreja Virgen de la Candelaria","Mirantes do Lago Ypacaraí","Chegada a Assunção"], notes:"Dia artístico e lacustre antes da capital." },
+{ id:uid(), day:14, base:"Assunção", type:["city","history"], title:"Assunção histórica", drive:"Urbano", sleep:"Assunção", highlights:["Palacio de López","Panteón Nacional de los Héroes","Casa de la Independencia","Costanera de Asunción","Loma San Jerónimo"], notes:"Capital com história política, rio e arquitetura." },
+{ id:uid(), day:15, base:"Assunção", type:["city","food"], title:"Assunção cultural, gastronômica e livre", drive:"Urbano", sleep:"Assunção", highlights:["Museus ou cafés","Bairros agradáveis","Gastronomia paraguaia","Compras leves","Descanso urbano"], notes:"Dia de respiro antes da rota missioneira." },
+{ id:uid(), day:16, base:"Encarnación", type:["road","history"], title:"Assunção → San Ignacio Guazú → Encarnación", drive:"380–410 km", sleep:"Encarnación", highlights:["San Ignacio Guazú","Santa Rosa","Rota missioneira","Chegada à Costanera de Encarnación","Playa San José à noite"], notes:"Entrada no eixo das Missões e do Rio Paraná." },
+{ id:uid(), day:17, base:"Encarnación", type:["history"], title:"Encarnación: Trinidad + Jesús de Tavarangue", drive:"90–120 km internos", sleep:"Encarnación", highlights:["Ruínas Jesuíticas de Trinidad","Jesús de Tavarangue","Pedra vermelha e fotografia","Possível espetáculo noturno","Retorno à Costanera"], notes:"Um dos dias históricos mais fortes de toda a viagem." },
+{ id:uid(), day:18, base:"Encarnación", type:["water","city"], title:"Encarnación livre: Costanera, Playa San José e descanso", drive:"Leve / urbano", sleep:"Encarnación", highlights:["Costanera de Encarnación","Playa San José","Cafés ou restaurantes à beira-rio","Tempo livre para fotos","Descanso antes da travessia leste"], notes:"Encarnación ganha peso próprio e deixa a viagem mais equilibrada." },
+{ id:uid(), day:19, base:"Ciudad del Este / Presidente Franco", type:["road","border"], title:"Encarnación → Ciudad del Este / Presidente Franco", drive:"280–320 km / 4h30–6h", sleep:"Ciudad del Este, Presidente Franco ou Foz", highlights:["Bella Vista / Hohenau","Região da erva-mate","Travessia pelo leste paraguaio","Chegada à tríplice fronteira","Noite leve"], notes:"Aproximação final de Foz sem correria." },
+{ id:uid(), day:20, base:"Foz", type:["water","border"], title:"Saltos del Monday → Foz do Iguaçu", drive:"20–40 km + fronteira", sleep:"Foz do Iguaçu", highlights:["Saltos del Monday","Presidente Franco","Ponte da Amizade","Chegada a Foz","Marco das Três Fronteiras no fim da tarde"], notes:"Fechamento paraguaio e entrada no clímax final da viagem." },
+{ id:uid(), day:21, base:"Foz", type:["water","nature"], title:"Foz: Cataratas + Parque das Aves", drive:"50–70 km internos", sleep:"Foz do Iguaçu", highlights:["Cataratas do Iguaçu lado brasileiro","Parque das Aves","Fotos e caminhada nas passarelas","Noite livre","Jantar de encerramento parcial"], notes:"Clímax natural da viagem." },
+{ id:uid(), day:22, base:"Foz", type:["city","water","border"], title:"Foz: Itaipu, Macuco, lado argentino ou retorno", drive:"Variável", sleep:"Foz ou retorno", highlights:["Itaipu Binacional","Macuco Safari opcional","Cataratas lado argentino opcional","Puerto Iguazú opcional","Voo de retorno para Maceió, conforme horário"], notes:"Dia flexível para ajustar ao voo, energia do casal e prioridades finais." }
+],
+legs:[
+["Campo Grande, MS","Pantanal Sul, Miranda, MS","130–220","2h–3h30","Entrada no Pantanal logo no início da viagem."],
+["Pantanal Sul, Miranda, MS","Bonito, MS","130–200","2h–3h30","Transição do Pantanal para as águas cristalinas."],
+["Bonito, MS","Gruta do Lago Azul, Bonito, MS","20–25","30–45min","Cartão-postal clássico de Bonito."],
+["Bonito, MS","Rio da Prata, Jardim, MS","50–60","1h–1h20","Único rio épico de flutuação no roteiro principal."],
+["Bonito, MS","Abismo Anhumas, Bonito, MS","25–30","40–50min","Experiência rara em caverna e lago subterrâneo."],
+["Bonito, MS","Ponta Porã, MS","340–380","5h–6h30","Deslocamento para a fronteira seca."],
+["Ponta Porã, MS","Pedro Juan Caballero, Paraguay","2–3","10–20min","Fronteira seca; verificar documentação do carro."],
+["Pedro Juan Caballero, Paraguay","Parque Nacional Cerro Corá, Paraguay","34–45","45min–1h","Natureza e história da Guerra do Paraguai."],
+["Parque Nacional Cerro Corá, Paraguay","Concepción, Paraguay","162–175","2h30–3h30","Chegada para dormir e explorar no dia seguinte."],
+["Concepción, Paraguay","San Bernardino, Paraguay","410–450","6h30–8h","Trecho longo; chegar para pôr do sol no Lago Ypacaraí."],
+["San Bernardino, Paraguay","Areguá, Paraguay","35–45","45min–1h20","Cerâmica, mirantes e Lago Ypacaraí."],
+["Areguá, Paraguay","Asunción, Paraguay","30–45","45min–1h30","Chegada à capital."],
+["Asunción, Paraguay","San Ignacio Guazú, Paraguay","221","3h30–4h30","Início da rota missioneira."],
+["San Ignacio Guazú, Paraguay","Santa Rosa, Misiones, Paraguay","20","20–30min","Parada histórica curta."],
+["Santa Rosa, Misiones, Paraguay","Encarnación, Paraguay","155–180","2h30–3h30","Chegada à Costanera e Playa San José."],
+["Encarnación, Paraguay","Misión Jesuítica de la Santísima Trinidad del Paraná, Paraguay","31","40–50min","Ruínas jesuíticas monumentais."],
+["Misión Jesuítica de la Santísima Trinidad del Paraná, Paraguay","Misión Jesuítica Jesús de Tavarangue, Paraguay","12–15","20–30min","Complemento histórico essencial."],
+["Encarnación, Paraguay","Ciudad del Este, Paraguay","280–320","4h30–6h","Travessia pelo leste paraguaio."],
+["Ciudad del Este, Paraguay","Saltos del Monday, Presidente Franco, Paraguay","8–10","20–30min","Quedas d'água antes de cruzar para Foz."],
+["Saltos del Monday, Presidente Franco, Paraguay","Foz do Iguaçu, PR","14–20","40min–1h30","Tempo depende da Ponte da Amizade/fronteira."],
+["Foz do Iguaçu, PR","Cataratas do Iguaçu, Foz do Iguaçu, PR","25–30","35–50min","Clímax natural da viagem."],
+["Cataratas do Iguaçu, Foz do Iguaçu, PR","Parque das Aves, Foz do Iguaçu, PR","1–2","5min","Combina no mesmo dia das Cataratas."],
+["Foz do Iguaçu, PR","Itaipu Binacional, Foz do Iguaçu, PR","12–18","20–35min","Grande obra de engenharia e energia."],
+["Foz do Iguaçu, PR","Marco das Três Fronteiras, Foz do Iguaçu, PR","6–10","15–25min","Fim de tarde perfeito."]
+].map(x=>({id:uid(),from:x[0],to:x[1],km:x[2],time:x[3],note:x[4]})),
+places:[],files:[],budget:[],flights:[],rental:[],notes:"",checks:{},
+docItems:["RG em bom estado ou passaporte válido","CNH válida","Documento do veículo ou contrato da locadora","Autorização expressa da locadora para cruzar para o Paraguai","Seguro internacional / Carta Verde, se aplicável","Comprovantes de reserva de hospedagem","Seguro viagem com cobertura internacional","Dinheiro em espécie para pedágios, pequenas compras e emergências","Chip internacional, roaming ou eSIM configurado","Backup offline dos mapas principais"],
+travelItems:["Reservar fazenda pantaneira com atividades inclusas","Reservar Gruta do Lago Azul com antecedência","Reservar Rio da Prata como única flutuação épica","Reservar Abismo Anhumas com antecedência e verificar exigências físicas","Confirmar horário de funcionamento de Cerro Corá","Escolher hotel em San Bernardino próximo ao Lago Ypacaraí","Reservar pelo menos 2 noites em Assunção","Reservar 3 noites em Encarnación, se possível","Conferir horários das Missões Jesuíticas","Separar manhã para Saltos del Monday","Comprar ingresso das Cataratas com antecedência em alta temporada","Evitar dirigir à noite nos trechos longos"]
+});
+let state=load(), editDay=null, editLeg=null, editPlace=null, editBudget=null, editFlight=null, editRental=null;
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem(LS))||defaultState();
+    s.trip=s.trip||defaultState().trip;
+    s.days=s.days||[];
+    s.legs=s.legs||[];
+    s.places=s.places||[];
+    s.files=s.files||[];
+    s.budget=s.budget||[];
+    s.flights=s.flights||[];
+    s.rental=s.rental||[];
+    s.notes=s.notes||"";
+    s.checks=s.checks||{};
+    s.docItems=s.docItems||defaultState().docItems;
+    s.travelItems=s.travelItems||defaultState().travelItems;
+    return s;
+  }catch(e){return defaultState()}
+}
+function save(){localStorage.setItem(LS,JSON.stringify(state));renderAll();appSyncSchedule()}
+function routePoints(){const pts=[];state.legs.forEach(l=>{if(l.from&&!pts.includes(l.from))pts.push(l.from);if(l.to&&!pts.includes(l.to))pts.push(l.to)});return pts}
+function mainRouteUrl(){const pts=routePoints();const origin=pts[0]||"Campo Grande, MS",dest=pts[pts.length-1]||"Foz do Iguaçu, PR",wps=pts.slice(1,-1).slice(0,9).join("|");return `https://www.google.com/maps/dir/?api=1&origin=${enc(origin)}&destination=${enc(dest)}&waypoints=${enc(wps)}&travelmode=driving`}
+function iframeUrl(){return `https://maps.google.com/maps?q=${enc(routePoints().join(" to "))}&output=embed`}
+function allPointsSearchUrl(){return mapsSearch(routePoints().join(" | "))}
+
+function showTabById(id){
+  const section=document.getElementById(id);
+  if(!section) return;
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  section.classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>{
+    const txt=(t.textContent||"").toLowerCase();
+    const map={overview:"visão geral",timeline:"roteiro",legs:"trechos",places:"lugares",files:"arquivos",budget:"orçamento",flights:"parte aérea",rental:"aluguel",memoria:"memória",map:"mapa",checklist:"checklist"};
+    t.classList.toggle("active", txt.includes(map[id]||""));
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+  renderAll();
+}
+
+function showTab(id,el){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");renderAll()}
+function pill(t){const labels={nature:"Natureza",water:"Água",history:"História",city:"Cidade",border:"Fronteira",road:"Estrada",food:"Gastronomia",hotel:"Hospedagem"};return `<span class="pill ${t}">${labels[t]||safe(t)}</span>`}
+function checkId(text){return btoa(unescape(encodeURIComponent(text))).slice(0,80)}function checked(text){return !!state.checks[checkId(text)]}function setChecked(text,val){if(val)state.checks[checkId(text)]=true;else delete state.checks[checkId(text)];save()}window.setChecked=setChecked
+function checkHtml(text){const ch=checked(text)?"checked":"";const arg=text.replace(/\\/g,"\\\\").replace(/'/g,"\\'");return `<label class="check"><input type="checkbox" ${ch} onchange="setChecked('${arg}', this.checked)"><span>${safe(text)}</span></label>`}
+function renderOverview(){tripTitle.textContent=state.trip.title;tripSubtitle.textContent=state.trip.subtitle;tripDescription.textContent=state.trip.description;mDays.textContent=state.days.length+" dias";mKm.textContent="≈ "+estimateKm()+" km";const total=state.budget.reduce((s,b)=>s+Number(b.value||0),0);mBudget.textContent=brl(total);renderProgress();renderRouteSummary()}
+function estimateKm(){let total=0;state.legs.forEach(l=>{const m=String(l.km||"").match(/[\d.,]+/g);if(m){const nums=m.map(x=>Number(x.replace(",","."))).filter(n=>!isNaN(n));if(nums.length)total+=nums.reduce((a,b)=>a+b,0)/nums.length}});return Math.round(total).toLocaleString("pt-BR")}
+function renderProgress(){const all=[];state.days.forEach(d=>d.highlights.forEach(h=>all.push(`Dia ${d.day}: ${h}`)));state.docItems.forEach(x=>all.push("Documento: "+x));state.travelItems.forEach(x=>all.push("Viagem: "+x));const done=all.filter(checked).length,pct=all.length?done/all.length*100:0;progressBar.style.width=pct+"%";progressText.textContent=`${done} de ${all.length} checkpoints concluídos (${pct.toFixed(0)}%).`;mProgress.textContent=pct.toFixed(0)+"%"}
+function renderRouteSummary(){const pts=routePoints();routeSummary.innerHTML=pts.map((p,i)=>`<div class="route-card"><div class="route-icon">${i+1}</div><div><strong>${safe(p)}</strong><br><span class="muted small">${i<pts.length-1?"Próximo: "+safe(pts[i+1]):"Destino final"}</span><div style="margin-top:8px"><a class="btn" target="_blank" href="${mapsSearch(p)}">Ver ponto</a>${i<pts.length-1?` <a class="btn primary" target="_blank" href="${mapsDir(p,pts[i+1])}">Navegar</a>`:""}</div></div></div>`).join("")}
+function renderFilters(){const bases=[...new Set(state.days.map(d=>d.base))];const cur=baseFilter.value||"all";baseFilter.innerHTML=`<option value="all">Todas</option>`+bases.map(b=>`<option value="${safe(b)}">${safe(b)}</option>`).join("");baseFilter.value=bases.includes(cur)?cur:"all"}
+function renderTimeline(){renderFilters();const base=baseFilter.value||"all",type=typeFilter.value||"all";let vis=[...state.days].sort((a,b)=>a.day-b.day);if(base!=="all")vis=vis.filter(d=>d.base===base);if(type!=="all")vis=vis.filter(d=>d.type.includes(type));timelineBox.innerHTML=vis.map(d=>`<div class="day"><div class="daynum"><span>Dia</span><span>${d.day}</span></div><div class="daybody"><div class="daytitle">${safe(d.title)}</div><div class="muted">${safe(d.drive)} • Pernoite: <strong>${safe(d.sleep)}</strong></div><div class="daymeta">${d.type.map(pill).join("")}</div>${d.notes?`<div class="alert info small">${safe(d.notes)}</div>`:""}<div class="checks">${d.highlights.map(h=>checkHtml(`Dia ${d.day}: ${h}`)).join("")}</div><div class="actions" style="justify-content:flex-start;margin-top:10px"><button onclick="openDayDialog('${d.id}')">Editar dia</button><button onclick="duplicateDay('${d.id}')">Duplicar</button></div></div></div>`).join("")}
+function renderLegs(){legsTable.innerHTML=`<thead><tr><th>#</th><th>Trecho</th><th>Distância</th><th>Tempo</th><th>Observação</th><th>Google Maps</th><th></th></tr></thead><tbody>${state.legs.map((l,i)=>`<tr><td>${i+1}</td><td><strong>${safe(l.from)}</strong><br><span class="muted">→ ${safe(l.to)}</span></td><td>${safe(l.km)} km</td><td>${safe(l.time)}</td><td class="small muted">${safe(l.note)}</td><td><a class="btn primary" target="_blank" href="${mapsDir(l.from,l.to)}">Abrir rota</a></td><td><button onclick="openLegDialog('${l.id}')">Editar</button></td></tr>`).join("")}</tbody>`}
+function renderPlaces(){const f=placeFilter.value||"all";const rows=state.places.filter(p=>f==="all"||p.cat===f);placesBox.innerHTML=rows.length?rows.map(p=>`<div class="mini-card"><div class="daymeta">${pill(p.cat)}</div><h3>${safe(p.name)}</h3><p class="muted small">${safe(p.base||"")}</p><p>${safe(p.notes||"")}</p><div class="actions" style="justify-content:flex-start"><a class="btn primary" target="_blank" href="${mapsSearch(p.query||p.name)}">Google Maps</a><button onclick="openPlaceDialog('${p.id}')">Editar</button></div></div>`).join(""):`<div class="alert info">Nenhum lugar extra cadastrado ainda.</div>`}
+function renderFiles(){generalNotes.value=state.notes||"";filesBox.innerHTML=state.files.length?state.files.map(f=>`<div class="attachment"><div style="display:flex;gap:10px;align-items:center">${f.type&&f.type.startsWith("image/")?`<img class="thumb" src="${f.data}">`:`<div class="thumb" style="display:grid;place-items:center">📎</div>`}<div><strong>${safe(f.name)}</strong><br><span class="muted small">${safe(f.type||"arquivo")} • ${Math.round((f.size||0)/1024)} KB</span></div></div><div class="actions"><a class="btn" href="${f.data}" download="${safe(f.name)}">Baixar</a><button class="danger" onclick="deleteFile('${f.id}')">Excluir</button></div></div>`).join(""):`<div class="alert info">Nenhum arquivo anexado.</div>`}
+function renderBudget(){const total=state.budget.reduce((s,b)=>s+Number(b.value||0),0);bTotal.textContent=brl(total);bPerPerson.textContent=brl(total/2);bPerDay.textContent=brl(total/Math.max(1,state.days.length));const cats={};state.budget.forEach(b=>cats[b.cat]=(cats[b.cat]||0)+Number(b.value||0));bCats.textContent=Object.keys(cats).length;budgetSummary.innerHTML=Object.entries(cats).map(([c,v])=>`<div class="route-card"><div class="route-icon">R$</div><div><strong>${safe(c)}</strong><br><span class="muted">${brl(v)}</span></div></div>`).join("")||`<div class="alert info">Sem despesas lançadas.</div>`;budgetTable.innerHTML=`<thead><tr><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Obs.</th><th></th></tr></thead><tbody>${state.budget.map(b=>`<tr><td>${safe(b.desc)}</td><td>${safe(b.cat)}</td><td>${brl(b.value)}</td><td class="small muted">${safe(b.note)}</td><td><button onclick="openBudgetDialog('${b.id}')">Editar</button></td></tr>`).join("")}</tbody>`}
+function renderChecklist(){docChecklist.innerHTML=state.docItems.map(x=>checkHtml("Documento: "+x)).join("");travelChecklist.innerHTML=state.travelItems.map(x=>checkHtml("Viagem: "+x)).join("")}
+
+function flightTotal(f){return (Number(f.price||0)*Number(f.people||2))+Number(f.fees||0)}
+function segmentLabel(s){return {ida:"Ida MCZ → CGR",volta:"Volta IGU → MCZ",alternativo:"Alternativo"}[s]||s}
+function renderFlights(){
+  if(!document.getElementById("flightsTable")) return;
+  const rows=state.flights||[];
+  const ida=rows.filter(f=>f.segment==="ida"&&f.status!=="descartado");
+  const volta=rows.filter(f=>f.segment==="volta"&&f.status!=="descartado");
+  const bestOut=ida.length?Math.min(...ida.map(f=>flightTotal(f))):0;
+  const bestBack=volta.length?Math.min(...volta.map(f=>flightTotal(f))):0;
+  fBestOut.textContent=brl(bestOut);
+  fBestBack.textContent=brl(bestBack);
+  fCoupleTotal.textContent=brl(bestOut+bestBack);
+  fCount.textContent=rows.length;
+  const good=(bestOut+bestBack)>0&&(bestOut+bestBack)<=5400;
+  flightSummary.innerHTML = `
+    <div class="alert ${good?"ok":"info"}"><strong>Estratégia:</strong> manter lógica aérea doméstica em multidestinos: Maceió → Campo Grande e Foz → Maceió.</div>
+    <div class="alert info"><strong>Melhor total salvo para o casal:</strong> ${brl(bestOut+bestBack)}.</div>
+    <div class="alert warn"><strong>Conferir antes da compra:</strong> bagagem, tempo de conexão, aeroporto da conexão, horário de chegada em Campo Grande e folga na volta por Foz.</div>
+  `;
+  const filter=flightFilter?.value||"all";
+  const vis=rows.filter(f=>filter==="all"||f.segment===filter);
+  flightsTable.innerHTML=`<thead><tr><th>Trecho</th><th>Companhia</th><th>Data/Horário</th><th>Conexão</th><th>Total</th><th>Status</th><th>Obs.</th><th></th></tr></thead><tbody>${vis.map(f=>`<tr>
+    <td><strong>${segmentLabel(f.segment)}</strong><br><span class="muted small">${safe(f.origin)} → ${safe(f.destination)}</span></td>
+    <td>${safe(f.company)}</td>
+    <td>${safe(f.date||"")}<br><span class="muted small">${safe(f.departure||"")} → ${safe(f.arrival||"")}</span></td>
+    <td>${safe(f.connection||"")}</td>
+    <td><strong>${brl(flightTotal(f))}</strong><br><span class="muted small">${brl(f.price)} por pessoa + ${brl(f.fees)} taxas/bagagem</span></td>
+    <td>${safe(f.status)}</td>
+    <td class="small muted">${safe(f.notes||"")}${f.link?`<br><a class="btn" target="_blank" href="${safe(f.link)}">Abrir link</a>`:""}</td>
+    <td><button onclick="openFlightDialog('${f.id}')">Editar</button></td>
+  </tr>`).join("")||`<tr><td colspan="8"><div class="alert info">Nenhuma cotação aérea cadastrada.</div></td></tr>`}</tbody>`;
+}
+function openFlightDialog(id=null){
+  editFlight=id;
+  const f=id?state.flights.find(x=>x.id===id):{segment:"ida",company:"",status:"cotacao",origin:"MCZ",destination:"CGR",date:"",departure:"",arrival:"",connection:"",price:0,people:2,fees:0,link:"",notes:""};
+  flightDialogTitle.textContent=id?"Editar cotação aérea":"Nova cotação aérea";
+  fSegment.value=f.segment;fCompany.value=f.company;fStatus.value=f.status;fOrigin.value=f.origin;fDestination.value=f.destination;fDate.value=f.date;fDeparture.value=f.departure;fArrival.value=f.arrival;fConnection.value=f.connection;fPrice.value=f.price;fPeople.value=f.people||2;fFees.value=f.fees;fLink.value=f.link||"";fNotes.value=f.notes||"";
+  deleteFlightBtn.style.display=id?"inline-flex":"none";
+  flightDialog.showModal();
+}
+function saveFlight(){
+  const obj={id:editFlight||uid(),segment:fSegment.value,company:fCompany.value,status:fStatus.value,origin:fOrigin.value,destination:fDestination.value,date:fDate.value,departure:fDeparture.value,arrival:fArrival.value,connection:fConnection.value,price:Number(fPrice.value||0),people:Number(fPeople.value||2),fees:Number(fFees.value||0),link:fLink.value,notes:fNotes.value};
+  state.flights=state.flights||[];
+  if(editFlight)state.flights[state.flights.findIndex(x=>x.id===editFlight)]=obj;else state.flights.push(obj);
+  flightDialog.close();save();
+}
+function deleteFlight(){if(editFlight&&confirm("Excluir esta cotação aérea?")){state.flights=state.flights.filter(x=>x.id!==editFlight);flightDialog.close();save()}}
+
+function rentalTotal(r){return Number(r.days||0)*Number(r.daily||0)+Number(r.returnFee||0)+Number(r.insurance||0)+Number(r.driver||0)+Number(r.other||0)}
+function renderRental(){
+  if(!document.getElementById("rentalTable")) return;
+  const rows=state.rental||[];
+  const valid=rows.filter(r=>r.status!=="descartado");
+  const best=valid.length?[...valid].sort((a,b)=>rentalTotal(a)-rentalTotal(b))[0]:null;
+  const bestTotal=best?rentalTotal(best):0;
+  rBest.textContent=brl(bestTotal);
+  rDaily.textContent=best&&Number(best.days)?brl(bestTotal/Number(best.days)):brl(0);
+  rReturnFee.textContent=best?brl(best.returnFee):brl(0);
+  rCount.textContent=rows.length;
+  rentalSummary.innerHTML = best ? `
+    <div class="alert ${best.paraguay==="sim"?"ok":"warn"}"><strong>Melhor cotação:</strong> ${safe(best.company)} — ${safe(best.car)} por ${brl(bestTotal)}.</div>
+    <div class="alert info"><strong>Retirada/devolução:</strong> ${safe(best.pickup)} → ${safe(best.dropoff)}.</div>
+    <div class="alert warn"><strong>Paraguai:</strong> autorização ${safe(best.paraguay)}; Carta Verde/seguro internacional: ${safe(best.greenCard)}; km livre: ${safe(best.kmFree)}.</div>
+  ` : `<div class="alert info">Nenhuma cotação de carro cadastrada ainda.</div>`;
+  const filter=rentalFilter?.value||"all";
+  const vis=rows.filter(r=>filter==="all"||r.status===filter);
+  rentalTable.innerHTML=`<thead><tr><th>Locadora</th><th>Carro</th><th>Retirada/Devolução</th><th>Custo</th><th>Paraguai/Seguro</th><th>Status</th><th>Obs.</th><th></th></tr></thead><tbody>${vis.map(r=>`<tr>
+    <td><strong>${safe(r.company)}</strong></td>
+    <td>${safe(r.car)}</td>
+    <td>${safe(r.pickup)}<br><span class="muted small">→ ${safe(r.dropoff)}</span></td>
+    <td><strong>${brl(rentalTotal(r))}</strong><br><span class="muted small">${r.days} dias × ${brl(r.daily)} + retorno ${brl(r.returnFee)}</span></td>
+    <td class="small">Paraguai: ${safe(r.paraguay)}<br>Carta Verde: ${safe(r.greenCard)}<br>Km livre: ${safe(r.kmFree)}</td>
+    <td>${safe(r.status)}</td>
+    <td class="small muted">${safe(r.notes||"")}${r.link?`<br><a class="btn" target="_blank" href="${safe(r.link)}">Abrir link</a>`:""}</td>
+    <td><button onclick="openRentalDialog('${r.id}')">Editar</button></td>
+  </tr>`).join("")||`<tr><td colspan="8"><div class="alert info">Nenhuma cotação de carro cadastrada.</div></td></tr>`}</tbody>`;
+}
+function openRentalDialog(id=null){
+  editRental=id;
+  const r=id?state.rental.find(x=>x.id===id):{company:"",status:"cotacao",car:"",pickup:"Campo Grande/CGR",dropoff:"Foz do Iguaçu/IGU",days:22,daily:0,returnFee:0,insurance:0,driver:0,other:0,paraguay:"pendente",greenCard:"pendente",kmFree:"sim",link:"",notes:""};
+  rentalDialogTitle.textContent=id?"Editar cotação de carro":"Nova cotação de carro";
+  rCompany.value=r.company;rStatus.value=r.status;rCar.value=r.car;rPickup.value=r.pickup;rDropoff.value=r.dropoff;rDays.value=r.days;rDailyInput.value=r.daily;rReturnFeeInput.value=r.returnFee;rInsurance.value=r.insurance;rDriver.value=r.driver;rOther.value=r.other;rParaguay.value=r.paraguay;rGreenCard.value=r.greenCard;rKm.value=r.kmFree;rLink.value=r.link||"";rNotes.value=r.notes||"";
+  deleteRentalBtn.style.display=id?"inline-flex":"none";
+  rentalDialog.showModal();
+}
+function saveRental(){
+  const obj={id:editRental||uid(),company:rCompany.value,status:rStatus.value,car:rCar.value,pickup:rPickup.value,dropoff:rDropoff.value,days:Number(rDays.value||0),daily:Number(rDailyInput.value||0),returnFee:Number(rReturnFeeInput.value||0),insurance:Number(rInsurance.value||0),driver:Number(rDriver.value||0),other:Number(rOther.value||0),paraguay:rParaguay.value,greenCard:rGreenCard.value,kmFree:rKm.value,link:rLink.value,notes:rNotes.value};
+  state.rental=state.rental||[];
+  if(editRental)state.rental[state.rental.findIndex(x=>x.id===editRental)]=obj;else state.rental.push(obj);
+  rentalDialog.close();save();
+}
+function deleteRental(){if(editRental&&confirm("Excluir esta cotação de carro?")){state.rental=state.rental.filter(x=>x.id!==editRental);rentalDialog.close();save()}}
+
+function renderMapLinks(){fullRouteBtn.href=mainRouteUrl();mapOpenBtn.href=mainRouteUrl();mapsSearchBtn.href=allPointsSearchUrl();mapFrame.src=iframeUrl()}
+function renderAll(){renderOverview();renderTimeline();renderLegs();renderPlaces();renderFiles();renderBudget();renderFlights();renderRental();renderChecklist();renderMapLinks();if(typeof renderGooglePhotoCards==="function")renderGooglePhotoCards()}
+
+function openTripDialog(){tTitle.value=state.trip.title;tSubtitle.value=state.trip.subtitle;tDescription.value=state.trip.description;tripDialog.showModal()}function saveTrip(){state.trip={title:tTitle.value,subtitle:tSubtitle.value,description:tDescription.value};tripDialog.close();save()}
+function openDayDialog(id=null){editDay=id;const d=id?state.days.find(x=>x.id===id):{day:state.days.length+1,base:"",sleep:"",title:"",drive:"",type:["road"],highlights:[],notes:""};dayDialogTitle.textContent=id?"Editar dia":"Novo dia";dDay.value=d.day;dBase.value=d.base;dSleep.value=d.sleep;dTitle.value=d.title;dDrive.value=d.drive;dTypes.value=(d.type||[]).join(",");dHighlights.value=(d.highlights||[]).join("\n");dNotes.value=d.notes||"";deleteDayBtn.style.display=id?"inline-flex":"none";dayDialog.showModal()}
+function saveDay(){const obj={id:editDay||uid(),day:Number(dDay.value||0),base:dBase.value,sleep:dSleep.value,title:dTitle.value,drive:dDrive.value,type:dTypes.value.split(",").map(x=>x.trim()).filter(Boolean),highlights:dHighlights.value.split("\n").map(x=>x.trim()).filter(Boolean),notes:dNotes.value};if(editDay){state.days[state.days.findIndex(x=>x.id===editDay)]=obj}else state.days.push(obj);dayDialog.close();save()}
+function deleteDay(){if(editDay&&confirm("Excluir este dia?")){state.days=state.days.filter(x=>x.id!==editDay);dayDialog.close();save()}}function duplicateDay(id){const d=state.days.find(x=>x.id===id);if(d){state.days.push({...JSON.parse(JSON.stringify(d)),id:uid(),day:state.days.length+1,title:d.title+" (cópia)"});save()}}function renumberDays(){state.days.sort((a,b)=>a.day-b.day).forEach((d,i)=>d.day=i+1);save()}
+function openLegDialog(id=null){editLeg=id;const l=id?state.legs.find(x=>x.id===id):{from:"",to:"",km:"",time:"",note:""};legDialogTitle.textContent=id?"Editar trecho":"Novo trecho";lFrom.value=l.from;lTo.value=l.to;lKm.value=l.km;lTime.value=l.time;lNote.value=l.note;deleteLegBtn.style.display=id?"inline-flex":"none";legDialog.showModal()}function saveLeg(){const obj={id:editLeg||uid(),from:lFrom.value,to:lTo.value,km:lKm.value,time:lTime.value,note:lNote.value};if(editLeg)state.legs[state.legs.findIndex(x=>x.id===editLeg)]=obj;else state.legs.push(obj);legDialog.close();save()}function deleteLeg(){if(editLeg&&confirm("Excluir trecho?")){state.legs=state.legs.filter(x=>x.id!==editLeg);legDialog.close();save()}}
+function openPlaceDialog(id=null){editPlace=id;const p=id?state.places.find(x=>x.id===id):{name:"",base:"",cat:"hotel",query:"",notes:""};placeDialogTitle.textContent=id?"Editar lugar":"Novo lugar";pName.value=p.name;pBase.value=p.base;pCat.value=p.cat;pQuery.value=p.query;pNotes.value=p.notes;deletePlaceBtn.style.display=id?"inline-flex":"none";placeDialog.showModal()}function savePlace(){const obj={id:editPlace||uid(),name:pName.value,base:pBase.value,cat:pCat.value,query:pQuery.value,notes:pNotes.value};if(editPlace)state.places[state.places.findIndex(x=>x.id===editPlace)]=obj;else state.places.push(obj);placeDialog.close();save()}function deletePlace(){if(editPlace&&confirm("Excluir lugar?")){state.places=state.places.filter(x=>x.id!==editPlace);placeDialog.close();save()}}
+function openBudgetDialog(id=null){editBudget=id;const b=id?state.budget.find(x=>x.id===id):{desc:"",cat:"Hospedagem",value:0,note:""};budgetDialogTitle.textContent=id?"Editar despesa":"Nova despesa";bDesc.value=b.desc;bCat.value=b.cat;bVal.value=b.value;bNote.value=b.note;deleteBudgetBtn.style.display=id?"inline-flex":"none";budgetDialog.showModal()}function saveBudget(){const obj={id:editBudget||uid(),desc:bDesc.value,cat:bCat.value,value:Number(bVal.value||0),note:bNote.value};if(editBudget)state.budget[state.budget.findIndex(x=>x.id===editBudget)]=obj;else state.budget.push(obj);budgetDialog.close();save()}function deleteBudget(){if(editBudget&&confirm("Excluir despesa?")){state.budget=state.budget.filter(x=>x.id!==editBudget);budgetDialog.close();save()}}
+function addFiles(ev){[...ev.target.files].forEach(file=>{const reader=new FileReader();reader.onload=()=>{state.files.push({id:uid(),name:file.name,type:file.type,size:file.size,data:reader.result});save()};reader.readAsDataURL(file)});ev.target.value=""}function deleteFile(id){state.files=state.files.filter(f=>f.id!==id);save()}function saveNotes(){state.notes=generalNotes.value;localStorage.setItem(LS,JSON.stringify(state))}
+function exportBackup(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="rota_epica_v2_backup.json";a.click()}
+function importBackup(ev){const file=ev.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{state=JSON.parse(r.result);save();alert("Backup importado.")}catch(e){alert("Arquivo inválido.")}};r.readAsText(file)}
+function resetAll(){if(confirm("Restaurar padrão e apagar edições salvas?")){state=defaultState();tripDialog.close();save()}}
+
+
+/* ===== Memória Viva — Google Docs + JSON ===== */
+const MEM_APPS_SCRIPT_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnQ9959CdX285-k9UqGJFwpIL_xGNVomNU0UrJWJLMvQOyMfURsQ05NWZ6Qz5826twUcTyJHO2PW-JOmX7Tat07ykZQPM8TtdCXRCgquZi510n7U5N7upmICexoWVEGtLN3QRUGGdtIy4Yxr4BhojA6Z8uKwx2xmd_15lrdrYIoS_OZwfpIgFj39FzjTz7hJCWUfZLUfpwAuz_Q39e3yAP_LmHGb3mZb9c3EqFMStqRiLH20T-kQn3JEl3ZIjZRO9aG-u6zLix3RG_jp_72Y7ZOCA84FBw&lib=M4uwVv58r528FBzcK-FyRY7LQuUZr8v_g";
+let memCurrentData = null;
+function memStatus(message,type=""){const box=document.getElementById("memStatus");if(!box)return;box.textContent=message;box.className="memory-status"+(type?" "+type:"")}
+function memBuildUrl(params){const u=new URL(MEM_APPS_SCRIPT_URL);Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));return u.toString()}
+function memJsonp(params){return new Promise((resolve,reject)=>{const cb="memCb_"+Date.now()+"_"+Math.floor(Math.random()*99999);params.callback=cb;const script=document.createElement("script");script.src=memBuildUrl(params);const t=setTimeout(()=>{cleanup();reject(new Error("Tempo esgotado ao chamar o Apps Script."))},25000);function cleanup(){clearTimeout(t);delete window[cb];if(script.parentNode)script.parentNode.removeChild(script)}window[cb]=(r)=>{cleanup();resolve(r)};script.onerror=()=>{cleanup();reject(new Error("Falha ao carregar resposta do Apps Script."))};document.body.appendChild(script)})}
+function memFillExample(){const examples=["Achei uma passagem MCZ para CGR dia 03/06 por R$ 1.420 por pessoa, com chegada em Campo Grande às 15h40.","Thayná prefere evitar muitas trocas de cidade no Paraguai; talvez Encarnación deva ser base por mais noites.","Carro Localiza com retirada em Campo Grande e devolução em Foz por R$ 5.800, mas falta confirmar autorização para cruzar o Paraguai.","Adicionar Abismo Anhumas como atração obrigatória e manter só uma flutuação épica em Bonito.","Pesquisar hospedagem no Pantanal por duas noites, com comida incluída e passeio de barco."];const f=document.getElementById("memText");if(f)f.value=examples[Math.floor(Math.random()*examples.length)]}
+async function memSaveEntry(){const author=document.getElementById("memAuthor")?.value||"Sem autor";const type=document.getElementById("memType")?.value||"";const pin=document.getElementById("memPin")?.value||"";const field=document.getElementById("memText");let text=(field?.value||"").trim();if(!text){memStatus("Digite uma entrada antes de salvar.","err");return}if(type)text="["+type+"] "+text;memStatus("Salvando no Google Docs e atualizando JSON...");try{const r=await memJsonp({action:"save",pin,author,text});if(!r||!r.ok){memStatus((r&&r.error)||"Erro ao salvar.","err");return}memStatus("Entrada salva com sucesso no Google Docs.","ok");if(field)field.value="";if(r.docUrl)memSetDocLinks(r.docUrl);await memLoadData()}catch(e){memStatus("Erro técnico: "+e.message,"err")}}
+async function memLoadData(){memStatus("Buscando dados já gravados no Google Docs...");try{const r=await memJsonp({action:"read"});if(!r||!r.ok){memStatus((r&&r.error)||"Erro ao ler memória.","err");return}memCurrentData=r.data||{};if(r.docUrl)memSetDocLinks(r.docUrl);memRender(r.data||{});memStatus("Dados carregados do Google Docs.","ok")}catch(e){memStatus("Erro ao carregar dados: "+e.message,"err")}}
+function memSetDocLinks(href){["memDocLink","memDocLinkTop"].forEach(id=>{const a=document.getElementById(id);if(a)a.href=href})}
+function memRender(data){const entries=Array.isArray(data.entradas)?data.entradas:[];const items=Array.isArray(data.itens)?data.itens:[];const json=document.getElementById("memJson");if(json)json.textContent=JSON.stringify(data,null,2);const cnt=document.getElementById("memCount");if(cnt)cnt.textContent=entries.length;const it=document.getElementById("memItems");if(it)it.textContent=items.length;const up=document.getElementById("memUpdated");if(up)up.textContent=formatMemDate(data?.metadata?.ultimaAtualizacao)||"—";memRenderEntries(entries);memRenderSummary(entries,items);renderGooglePhotoCards()}
+function memRenderEntries(entries){const c=document.getElementById("memEntries");if(!c)return;if(!entries.length){c.innerHTML=`<div class="memory-item"><strong>Nenhuma entrada registrada ainda.</strong><p class="muted">As próximas entradas aparecerão aqui.</p></div>`;return}c.innerHTML=[...entries].reverse().slice(0,16).map(e=>`<div class="memory-item"><small>${formatMemDate(e.data)} · ${safe(e.autor||"Sem autor")}</small><p>${safe(e.texto||"")}</p></div>`).join("")}
+function memRenderSummary(entries,items){const c=document.getElementById("memSummary");if(!c)return;const counts={};items.forEach(i=>{const t=i.tipo||"observacao";counts[t]=(counts[t]||0)+1});const labels={passagem:"Passagens aéreas",aluguel_carro:"Aluguel de carro",hospedagem:"Hospedagens",custo:"Custos",roteiro:"Roteiro",observacao:"Observações",preferencia:"Preferências",pendencia:"Pendências"};let html=`<div class="memory-item"><span class="memory-badge">memória</span><strong>${entries.length} entrada(s) registrada(s)</strong><p class="muted">A memória compartilhada está sincronizada com o Google Docs.</p></div>`;html+=Object.entries(counts).map(([t,n])=>`<div class="memory-item"><span class="memory-badge">${safe(t)}</span><strong>${labels[t]||t}</strong><p class="muted">${n} item(ns) identificado(s).</p></div>`).join("");const last=items[items.length-1];if(last)html+=`<div class="memory-item"><span class="memory-badge">última classificação</span><strong>${safe(last.tipo||"item")}</strong><p class="muted">${safe(last.textoOriginal||"")}</p></div>`;html+=`<div class="memory-item"><span class="memory-badge">GPT</span><strong>Próxima camada</strong><p class="muted">Ativar OpenAI no Código.gs para análise semântica profunda das entradas.</p></div>`;c.innerHTML=html}
+function formatMemDate(v){if(!v)return"";const d=new Date(v);if(Number.isNaN(d.getTime()))return v;return d.toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"})}
+function renderGooglePhotoCards(){const box=document.getElementById("googlePhotoCards");if(!box)return;const points=routePoints().slice(0,9);box.innerHTML=points.map(p=>`<div class="google-photo-card"><iframe loading="lazy" src="https://maps.google.com/maps?q=${enc(p)}&output=embed"></iframe><div class="body"><h3>${safe(p)}</h3><p>Prévia integrada do Google Maps. Use o botão para abrir fotos, avaliações e detalhes do ponto.</p><div class="actions" style="justify-content:flex-start;margin-top:10px"><a class="btn primary" target="_blank" href="${mapsSearch(p)}">Abrir no Maps</a><a class="btn" target="_blank" href="https://www.google.com/maps/search/${enc(p+' fotos')}">Fotos</a></div></div></div>`).join("")}
+
+
+/* ===== Sincronização do estado completo do app com Google Docs ===== */
+const APP_SYNC_STORAGE_KEY = "rota_epica_v3_app_sync_meta";
+let appSyncTimer = null;
+
+function appSyncStatus(message,type=""){
+  const box=document.getElementById("appSyncStatus");
+  if(!box)return;
+  box.innerHTML=message;
+  box.className="app-sync-status"+(type?" "+type:"");
+}
+
+function appSyncMeta(){
+  try{return JSON.parse(localStorage.getItem(APP_SYNC_STORAGE_KEY))||{}}
+  catch(e){return{}}
+}
+
+function appSyncSetMeta(meta){
+  localStorage.setItem(APP_SYNC_STORAGE_KEY,JSON.stringify({...appSyncMeta(),...meta}));
+  appSyncRenderMeta();
+}
+
+function appSyncRenderMeta(){
+  const meta=appSyncMeta();
+  const local=document.getElementById("appSyncLastLocal");
+  const remote=document.getElementById("appSyncLastRemote");
+  const mode=document.getElementById("appSyncMode");
+  const auto=document.getElementById("appSyncAuto");
+  if(local)local.textContent=meta.lastLocal?formatMemDate(meta.lastLocal):"—";
+  if(remote)remote.textContent=meta.lastRemote?formatMemDate(meta.lastRemote):"—";
+  if(mode)mode.textContent=meta.auto?"automático":"manual";
+  if(auto)auto.checked=!!meta.auto;
+}
+
+function appSyncSetAuto(value){
+  appSyncSetMeta({auto:!!value});
+  appSyncStatus(value?"Auto-sync ativado. As próximas alterações serão enviadas após alguns segundos.":"Auto-sync desativado.","ok");
+}
+
+function appSyncSchedule(){
+  const meta=appSyncMeta();
+  if(!meta.auto)return;
+  clearTimeout(appSyncTimer);
+  appSyncTimer=setTimeout(()=>appSyncSaveNow(true),3500);
+}
+
+function appSyncCompactState(){
+  const clone=JSON.parse(JSON.stringify(state||{}));
+  clone.files=(clone.files||[]).map(f=>({
+    id:f.id,
+    name:f.name,
+    type:f.type,
+    size:f.size,
+    preservedLocalOnly:true
+  }));
+  return clone;
+}
+
+function appSyncPayload(){
+  return {
+    kind:"pantanal_bonito_paraguai_foz_app_state",
+    version:"v3-google-docs-sync",
+    savedAt:new Date().toISOString(),
+    travelers:["Guido","Thayná"],
+    source:location.href,
+    state:appSyncCompactState()
+  };
+}
+
+function appSyncPost(params){
+  return new Promise((resolve)=>{
+    const frameName="appSyncFrame_"+Date.now();
+    const iframe=document.createElement("iframe");
+    iframe.name=frameName;
+    iframe.style.display="none";
+    document.body.appendChild(iframe);
+
+    const form=document.createElement("form");
+    form.method="POST";
+    form.action=MEM_APPS_SCRIPT_URL;
+    form.target=frameName;
+    form.style.display="none";
+
+    Object.entries(params).forEach(([k,v])=>{
+      const input=document.createElement("input");
+      input.type="hidden";
+      input.name=k;
+      input.value=typeof v==="string"?v:JSON.stringify(v);
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+
+    setTimeout(()=>{
+      form.remove();
+      iframe.remove();
+      resolve({ok:true,posted:true});
+    },1800);
+  });
+}
+
+async function appSyncSaveNow(silent=false){
+  const pin=document.getElementById("memPin")?.value||"2026";
+  const author=document.getElementById("memAuthor")?.value||"Guido";
+  const payload=appSyncPayload();
+
+  if(!silent)appSyncStatus("Enviando estado completo do app para o Google Docs...","warn");
+
+  try{
+    await appSyncPost({
+      action:"save_app_state",
+      pin,
+      author,
+      payload:JSON.stringify(payload)
+    });
+
+    appSyncSetMeta({lastLocal:payload.savedAt});
+    if(!silent)appSyncStatus("Estado do app enviado. Se o Código.gs estiver atualizado, o pacote já estará salvo no Google Docs.","ok");
+  }catch(e){
+    appSyncStatus("Erro ao enviar estado do app: "+e.message,"err");
+  }
+}
+
+async function appSyncLoadLatest(){
+  appSyncStatus("Buscando último estado completo salvo no Google Docs...","warn");
+
+  try{
+    const r=await memJsonp({action:"read_app_state"});
+    if(!r||!r.ok){
+      appSyncStatus((r&&r.error)||"Não foi possível ler o estado completo. Verifique se o Código.gs implementa read_app_state.","err");
+      return;
+    }
+
+    const payload=typeof r.payload==="string"?JSON.parse(r.payload):(r.payload||r.data||{});
+    if(!payload.state){
+      appSyncStatus("O retorno do Apps Script não contém payload.state.","err");
+      return;
+    }
+
+    if(!confirm("Restaurar o estado salvo no Google Docs neste navegador? Isso substituirá o estado local atual."))return;
+
+    state=payload.state;
+    localStorage.setItem(LS,JSON.stringify(state));
+    renderAll();
+    appSyncSetMeta({lastRemote:payload.savedAt||new Date().toISOString()});
+    appSyncStatus("Estado restaurado com sucesso a partir do Google Docs.","ok");
+  }catch(e){
+    appSyncStatus("Erro ao restaurar estado: "+e.message,"err");
+  }
+}
+
+function appSyncBoot(){
+  appSyncRenderMeta();
+}
+
+renderAll();
+memLoadData();
+appSyncBoot();
+</script>
+</body>
+</html>
