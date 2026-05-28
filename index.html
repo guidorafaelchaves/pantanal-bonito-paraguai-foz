@@ -129,6 +129,32 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 .sync-pill.err{border-color:#7f1d1d;background:#220f12;color:#fecaca}
 @media(max-width:760px){.sync-pill{justify-content:center;min-height:44px}}
 
+/* ===== Modo Celular — roteiro operacional ===== */
+.mobile-planner-shell{display:grid;gap:14px}
+.mobile-hero{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border:1px solid var(--line);border-radius:24px;padding:18px;background:linear-gradient(135deg,rgba(8,47,73,.92),rgba(6,78,59,.88));box-shadow:var(--shadow)}
+.mobile-hero h2{font-size:24px;margin:2px 0 8px}.mobile-hero p{margin:0;color:#dbeafe;line-height:1.45}.mobile-kicker{font-size:11px;font-weight:950;color:#bbf7d0;text-transform:uppercase;letter-spacing:.08em}.mobile-sync-stack{display:grid;gap:8px;min-width:210px}.mobile-control-grid{display:grid;grid-template-columns:1.4fr 1fr auto auto;gap:10px;align-items:end}.mobile-day-focus,.mobile-quick-add,.mobile-notes-box,.mobile-day-card{border:1px solid var(--line);border-radius:18px;background:#0a1220;padding:14px}.mobile-day-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.mobile-day-number{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#38bdf8,#22c55e);color:#04101d;font-size:22px;font-weight:950;flex:0 0 auto}.mobile-day-title{font-size:20px;font-weight:950;margin-bottom:4px}.mobile-day-sub{color:var(--muted);font-size:13px;line-height:1.4}.mobile-progress-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin:12px 0}.mobile-day-actions,.mobile-add-row{display:flex;gap:8px;flex-wrap:wrap}.mobile-add-row{align-items:center}.mobile-add-row input{flex:1;min-width:220px}.mobile-wide{width:100%;justify-content:center;margin-top:8px}.mobile-checks{display:grid;gap:8px;margin-top:12px}.mobile-check{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:10px;background:#08111f}.mobile-check input{width:22px;height:22px;margin:0}.mobile-check.done span{text-decoration:line-through;color:var(--muted)}.mobile-delete{padding:8px 10px;border-radius:11px;color:#fecaca;background:#2c1216;border-color:#7f1d1d}.mobile-days-list{display:grid;gap:10px}.mobile-day-card{cursor:pointer;transition:.18s ease}.mobile-day-card:hover{border-color:#51617a}.mobile-day-card.active{border-color:#38bdf8;background:#071827}.mobile-day-card-top{display:flex;justify-content:space-between;gap:10px}.mobile-chip-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.mobile-mini-progress{height:9px;border-radius:999px;background:#08111f;border:1px solid var(--line);overflow:hidden;margin-top:10px}.mobile-mini-progress span{display:block;height:100%;background:linear-gradient(90deg,#38bdf8,#22c55e)}
+@media(max-width:760px){
+  .tabs .tab:nth-child(n+5){display:none}
+  #mobile{margin-top:8px}
+  .mobile-hero{border-radius:18px;padding:14px;display:grid}
+  .mobile-hero h2{font-size:20px}
+  .mobile-sync-stack{min-width:0}
+  .mobile-control-grid{grid-template-columns:1fr 1fr}
+  .mobile-control-grid label{grid-column:1/-1}
+  .mobile-control-grid button{min-height:46px;justify-content:center}
+  .mobile-day-focus,.mobile-quick-add,.mobile-notes-box,.mobile-day-card{border-radius:16px;padding:12px}
+  .mobile-day-head{align-items:flex-start}
+  .mobile-day-number{width:48px;height:48px;border-radius:14px;font-size:20px}
+  .mobile-day-title{font-size:18px}
+  .mobile-day-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}
+  .mobile-day-actions .btn,.mobile-day-actions button{justify-content:center}
+  .mobile-add-row{display:grid}
+  .mobile-add-row input{min-width:0}
+  .mobile-check{grid-template-columns:auto 1fr auto;padding:12px}
+  .mobile-delete{min-width:42px;justify-content:center}
+  .mobile-bottom-nav{grid-template-columns:repeat(7,1fr)}
+}
+
 </style>
 </head>
 <body>
@@ -150,6 +176,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 <nav class="tabs">
 <div class="tab active" onclick="showTab('overview',this)">Visão Geral</div>
 <div class="tab" onclick="showTab('timeline',this)">Roteiro Editável</div>
+<div class="tab" onclick="showTab('mobile',this)">Modo Celular</div>
 <div class="tab" onclick="showTab('legs',this)">Trechos e Maps</div>
 <div class="tab" onclick="showTab('places',this)">Lugares Extras</div>
 <div class="tab" onclick="showTab('files',this)">Arquivos</div>
@@ -184,6 +211,47 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 <button onclick="renumberDays()">Reordenar dias</button>
 </div>
 <div class="timeline" id="timelineBox"></div>
+</section>
+
+<section id="mobile">
+<div class="mobile-planner-shell">
+  <div class="mobile-hero">
+    <div>
+      <div class="mobile-kicker">Roteiro de bolso</div>
+      <h2>Editar a viagem no celular</h2>
+      <p>Escolha o dia, marque atividades, acrescente novas ideias e sincronize tudo com o Google Docs.</p>
+    </div>
+    <div class="mobile-sync-stack">
+      <span id="mobileSyncStatus" class="sync-pill">Docs: aguardando</span>
+      <button class="primary" onclick="syncAppToDocs()">Sincronizar Docs</button>
+    </div>
+  </div>
+
+  <div class="mobile-control-grid">
+    <label>Buscar no roteiro<input id="mobileSearch" placeholder="Cidade, passeio, estrada..." oninput="renderMobilePlanner()"></label>
+    <label>Dia<select id="mobileDaySelect" onchange="setMobileDay(this.value)"></select></label>
+    <button onclick="openDayDialog(getMobileSelectedDayId())">Editar dia</button>
+    <button onclick="openDayDialog()">Novo dia</button>
+  </div>
+
+  <div class="mobile-day-focus" id="mobileDayFocus"></div>
+
+  <div class="mobile-quick-add">
+    <h3>Acrescentar atividade</h3>
+    <div class="mobile-add-row">
+      <input id="mobileActivityInput" placeholder="Ex.: reservar passeio, restaurante, mirante...">
+      <button class="primary" onclick="addMobileActivity()">Adicionar</button>
+    </div>
+    <button class="gold mobile-wide" onclick="addMobileActivity(true)">Adicionar e sincronizar Docs</button>
+  </div>
+
+  <div class="mobile-notes-box">
+    <label>Notas do dia<textarea id="mobileDayNotes" placeholder="Anote ajustes, reservas, horários, dúvidas e decisões do dia..." onblur="saveMobileDayNotes()"></textarea></label>
+    <button onclick="saveMobileDayNotes()" class="primary">Salvar notas</button>
+  </div>
+
+  <div class="mobile-days-list" id="mobileDaysList"></div>
+</div>
 </section>
 
 <section id="legs">
@@ -375,7 +443,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 
 
 <div class="mobile-bottom-nav" aria-label="Navegação rápida mobile">
-  <button type="button" onclick="showTabById('overview')">🏠<span>Geral</span></button>
+  <button type="button" onclick="showTabById('mobile')">📱<span>Roteiro</span></button>
   <button type="button" onclick="showTabById('timeline')">🗓️<span>Dias</span></button>
   <button type="button" onclick="showTabById('legs')">🧭<span>Rotas</span></button>
   <button type="button" onclick="showTabById('files')">📎<span>Arquivos</span></button>
@@ -556,7 +624,7 @@ places:[],files:[],budget:[],flights:[],rental:[],notes:"",checks:{},
 docItems:["RG em bom estado ou passaporte válido","CNH válida","Documento do veículo ou contrato da locadora","Autorização expressa da locadora para cruzar para o Paraguai","Seguro internacional / Carta Verde, se aplicável","Comprovantes de reserva de hospedagem","Seguro viagem com cobertura internacional","Dinheiro em espécie para pedágios, pequenas compras e emergências","Chip internacional, roaming ou eSIM configurado","Backup offline dos mapas principais"],
 travelItems:["Reservar fazenda pantaneira com atividades inclusas","Reservar Gruta do Lago Azul com antecedência","Reservar Rio da Prata como única flutuação épica","Reservar Abismo Anhumas com antecedência e verificar exigências físicas","Confirmar horário de funcionamento de Cerro Corá","Escolher hotel em San Bernardino próximo ao Lago Ypacaraí","Reservar pelo menos 2 noites em Assunção","Reservar 3 noites em Encarnación, se possível","Conferir horários das Missões Jesuíticas","Separar manhã para Saltos del Monday","Comprar ingresso das Cataratas com antecedência em alta temporada","Evitar dirigir à noite nos trechos longos"]
 });
-let state=load(), editDay=null, editLeg=null, editPlace=null, editBudget=null, editFlight=null, editRental=null;
+let state=load(), editDay=null, editLeg=null, editPlace=null, editBudget=null, editFlight=null, editRental=null, mobileSelectedDayId=null;
 function load(){
   try{
     const s=JSON.parse(localStorage.getItem(LS))||defaultState();
@@ -588,7 +656,7 @@ function showTabById(id){
   section.classList.add("active");
   document.querySelectorAll(".tab").forEach(t=>{
     const txt=(t.textContent||"").toLowerCase();
-    const map={overview:"visão geral",timeline:"roteiro",legs:"trechos",places:"lugares",files:"arquivos",budget:"orçamento",flights:"parte aérea",rental:"aluguel",memoria:"memória",map:"mapa",checklist:"checklist"};
+    const map={overview:"visão geral",timeline:"roteiro",mobile:"modo celular",legs:"trechos",places:"lugares",files:"arquivos",budget:"orçamento",flights:"parte aérea",rental:"aluguel",memoria:"memória",map:"mapa",checklist:"checklist"};
     t.classList.toggle("active", txt.includes(map[id]||""));
   });
   window.scrollTo({top:0,behavior:"smooth"});
@@ -605,6 +673,32 @@ function renderProgress(){const all=[];state.days.forEach(d=>d.highlights.forEac
 function renderRouteSummary(){const pts=routePoints();routeSummary.innerHTML=pts.map((p,i)=>`<div class="route-card"><div class="route-icon">${i+1}</div><div><strong>${safe(p)}</strong><br><span class="muted small">${i<pts.length-1?"Próximo: "+safe(pts[i+1]):"Destino final"}</span><div style="margin-top:8px"><a class="btn" target="_blank" href="${mapsSearch(p)}">Ver ponto</a>${i<pts.length-1?` <a class="btn primary" target="_blank" href="${mapsDir(p,pts[i+1])}">Navegar</a>`:""}</div></div></div>`).join("")}
 function renderFilters(){const bases=[...new Set(state.days.map(d=>d.base))];const cur=baseFilter.value||"all";baseFilter.innerHTML=`<option value="all">Todas</option>`+bases.map(b=>`<option value="${safe(b)}">${safe(b)}</option>`).join("");baseFilter.value=bases.includes(cur)?cur:"all"}
 function renderTimeline(){renderFilters();const base=baseFilter.value||"all",type=typeFilter.value||"all";let vis=[...state.days].sort((a,b)=>a.day-b.day);if(base!=="all")vis=vis.filter(d=>d.base===base);if(type!=="all")vis=vis.filter(d=>d.type.includes(type));timelineBox.innerHTML=vis.map(d=>`<div class="day"><div class="daynum"><span>Dia</span><span>${d.day}</span></div><div class="daybody"><div class="daytitle">${safe(d.title)}</div><div class="muted">${safe(d.drive)} • Pernoite: <strong>${safe(d.sleep)}</strong></div><div class="daymeta">${d.type.map(pill).join("")}</div>${d.notes?`<div class="alert info small">${safe(d.notes)}</div>`:""}<div class="checks">${d.highlights.map(h=>checkHtml(`Dia ${d.day}: ${h}`)).join("")}</div><div class="actions" style="justify-content:flex-start;margin-top:10px"><button onclick="openDayDialog('${d.id}')">Editar dia</button><button onclick="duplicateDay('${d.id}')">Duplicar</button></div></div></div>`).join("")}
+function sortedDays(){return [...state.days].sort((a,b)=>a.day-b.day)}
+function mobileProgressForDay(d){const total=(d.highlights||[]).length;const done=(d.highlights||[]).filter(h=>checked(`Dia ${d.day}: ${h}`)).length;return {total,done,pct:total?Math.round(done/total*100):0}}
+function getMobileSelectedDayId(){const d=getMobileSelectedDay();return d?d.id:null}
+function getMobileSelectedDay(){const days=sortedDays();if(!days.length)return null;let d=days.find(x=>x.id===mobileSelectedDayId);if(!d){d=days.find(x=>mobileProgressForDay(x).pct<100)||days[0];mobileSelectedDayId=d.id}return d}
+function setMobileDay(id){mobileSelectedDayId=id;renderMobilePlanner()}
+function renderMobilePlanner(){
+  const focus=document.getElementById("mobileDayFocus"), list=document.getElementById("mobileDaysList"), select=document.getElementById("mobileDaySelect");
+  if(!focus||!list||!select)return;
+  const days=sortedDays();
+  if(!days.length){focus.innerHTML=`<div class="alert info">Nenhum dia cadastrado ainda.</div>`;list.innerHTML="";return}
+  const selected=getMobileSelectedDay();
+  select.innerHTML=days.map(d=>`<option value="${d.id}">Dia ${d.day} - ${safe(d.base||d.title)}</option>`).join("");
+  select.value=selected.id;
+  const progress=mobileProgressForDay(selected);
+  const baseUrl=mapsSearch(selected.base||selected.title);
+  focus.innerHTML=`<div class="mobile-day-head"><div class="mobile-day-number">${selected.day}</div><div style="flex:1"><div class="mobile-day-title">${safe(selected.title)}</div><div class="mobile-day-sub">${safe(selected.base||"")} • ${safe(selected.drive||"")} • Pernoite: ${safe(selected.sleep||"")}</div><div class="mobile-chip-row">${(selected.type||[]).map(pill).join("")}</div></div></div><div class="mobile-progress-row"><div class="progress"><div class="bar" style="width:${progress.pct}%"></div></div><strong>${progress.done}/${progress.total}</strong></div><div class="mobile-checks">${(selected.highlights||[]).map((h,i)=>mobileActivityHtml(selected,h,i)).join("")||`<div class="alert info">Nenhuma atividade neste dia ainda.</div>`}</div><div class="mobile-day-actions" style="margin-top:12px"><a class="btn primary" target="_blank" href="${baseUrl}">Abrir Maps</a><button onclick="openDayDialog('${selected.id}')">Editar dia</button><button onclick="duplicateDay('${selected.id}')">Duplicar</button><button onclick="syncAppToDocs()">Sincronizar</button></div>`;
+  const notes=document.getElementById("mobileDayNotes");if(notes&&document.activeElement!==notes)notes.value=selected.notes||"";
+  const q=(document.getElementById("mobileSearch")?.value||"").trim().toLowerCase();
+  const filtered=days.filter(d=>!q||[d.title,d.base,d.sleep,d.drive,d.notes,(d.highlights||[]).join(" ")].join(" ").toLowerCase().includes(q));
+  list.innerHTML=filtered.map(d=>{const p=mobileProgressForDay(d);return `<div class="mobile-day-card ${d.id===selected.id?"active":""}" onclick="setMobileDay('${d.id}')"><div class="mobile-day-card-top"><div><strong>Dia ${d.day} · ${safe(d.base||"")}</strong><br><span class="muted small">${safe(d.title)}</span></div><span class="pill">${p.pct}%</span></div><div class="mobile-mini-progress"><span style="width:${p.pct}%"></span></div></div>`}).join("")||`<div class="alert info">Nenhum dia encontrado na busca.</div>`;
+}
+function mobileActivityHtml(d,h,i){const key=`Dia ${d.day}: ${h}`;const done=checked(key);const arg=key.replace(/\\/g,"\\\\").replace(/'/g,"\\'");return `<label class="mobile-check ${done?"done":""}"><input type="checkbox" ${done?"checked":""} onchange="setChecked('${arg}',this.checked)"><span>${safe(h)}</span><button type="button" class="mobile-delete" onclick="event.preventDefault();event.stopPropagation();removeMobileActivity('${d.id}',${i})">×</button></label>`}
+async function addMobileActivity(syncNow=false){const d=getMobileSelectedDay();const input=document.getElementById("mobileActivityInput");const text=(input?.value||"").trim();if(!d||!text)return;d.highlights=d.highlights||[];d.highlights.push(text);if(input)input.value="";save();if(syncNow)await syncAppToDocs()}
+function removeMobileActivity(dayId,index){const d=state.days.find(x=>x.id===dayId);if(!d||!Array.isArray(d.highlights))return;const old=d.highlights[index];d.highlights.splice(index,1);if(old)delete state.checks[checkId(`Dia ${d.day}: ${old}`)];save()}
+function saveMobileDayNotes(){const d=getMobileSelectedDay();const notes=document.getElementById("mobileDayNotes");if(!d||!notes)return;d.notes=notes.value;localStorage.setItem(LS,JSON.stringify(state));renderAll()}
+function preferMobilePlannerOnPhone(){if(window.matchMedia&&window.matchMedia("(max-width: 760px)").matches&&!location.hash)showTabById("mobile")}
 function renderLegs(){legsTable.innerHTML=`<thead><tr><th>#</th><th>Trecho</th><th>Distância</th><th>Tempo</th><th>Observação</th><th>Google Maps</th><th></th></tr></thead><tbody>${state.legs.map((l,i)=>`<tr><td>${i+1}</td><td><strong>${safe(l.from)}</strong><br><span class="muted">→ ${safe(l.to)}</span></td><td>${safe(l.km)} km</td><td>${safe(l.time)}</td><td class="small muted">${safe(l.note)}</td><td><a class="btn primary" target="_blank" href="${mapsDir(l.from,l.to)}">Abrir rota</a></td><td><button onclick="openLegDialog('${l.id}')">Editar</button></td></tr>`).join("")}</tbody>`}
 function renderPlaces(){const f=placeFilter.value||"all";const rows=state.places.filter(p=>f==="all"||p.cat===f);placesBox.innerHTML=rows.length?rows.map(p=>`<div class="mini-card"><div class="daymeta">${pill(p.cat)}</div><h3>${safe(p.name)}</h3><p class="muted small">${safe(p.base||"")}</p><p>${safe(p.notes||"")}</p><div class="actions" style="justify-content:flex-start"><a class="btn primary" target="_blank" href="${mapsSearch(p.query||p.name)}">Google Maps</a><button onclick="openPlaceDialog('${p.id}')">Editar</button></div></div>`).join(""):`<div class="alert info">Nenhum lugar extra cadastrado ainda.</div>`}
 function renderFiles(){generalNotes.value=state.notes||"";filesBox.innerHTML=state.files.length?state.files.map(f=>`<div class="attachment"><div style="display:flex;gap:10px;align-items:center">${f.type&&f.type.startsWith("image/")?`<img class="thumb" src="${f.data}">`:`<div class="thumb" style="display:grid;place-items:center">📎</div>`}<div><strong>${safe(f.name)}</strong><br><span class="muted small">${safe(f.type||"arquivo")} • ${Math.round((f.size||0)/1024)} KB</span></div></div><div class="actions"><a class="btn" href="${f.data}" download="${safe(f.name)}">Baixar</a><button class="danger" onclick="deleteFile('${f.id}')">Excluir</button></div></div>`).join(""):`<div class="alert info">Nenhum arquivo anexado.</div>`}
@@ -705,7 +799,7 @@ function saveRental(){
 function deleteRental(){if(editRental&&confirm("Excluir esta cotação de carro?")){state.rental=state.rental.filter(x=>x.id!==editRental);rentalDialog.close();save()}}
 
 function renderMapLinks(){fullRouteBtn.href=mainRouteUrl();mapOpenBtn.href=mainRouteUrl();mapsSearchBtn.href=allPointsSearchUrl();mapFrame.src=iframeUrl()}
-function renderAll(){renderOverview();renderTimeline();renderLegs();renderPlaces();renderFiles();renderBudget();renderFlights();renderRental();renderChecklist();renderMapLinks();if(typeof renderGooglePhotoCards==="function")renderGooglePhotoCards()}
+function renderAll(){renderOverview();renderTimeline();renderMobilePlanner();renderLegs();renderPlaces();renderFiles();renderBudget();renderFlights();renderRental();renderChecklist();renderMapLinks();if(typeof renderGooglePhotoCards==="function")renderGooglePhotoCards()}
 
 function openTripDialog(){tTitle.value=state.trip.title;tSubtitle.value=state.trip.subtitle;tDescription.value=state.trip.description;tripDialog.showModal()}function saveTrip(){state.trip={title:tTitle.value,subtitle:tSubtitle.value,description:tDescription.value};tripDialog.close();save()}
 function openDayDialog(id=null){editDay=id;const d=id?state.days.find(x=>x.id===id):{day:state.days.length+1,base:"",sleep:"",title:"",drive:"",type:["road"],highlights:[],notes:""};dayDialogTitle.textContent=id?"Editar dia":"Novo dia";dDay.value=d.day;dBase.value=d.base;dSleep.value=d.sleep;dTitle.value=d.title;dDrive.value=d.drive;dTypes.value=(d.type||[]).join(",");dHighlights.value=(d.highlights||[]).join("\n");dNotes.value=d.notes||"";deleteDayBtn.style.display=id?"inline-flex":"none";dayDialog.showModal()}
@@ -739,10 +833,12 @@ function renderGooglePhotoCards(){const box=document.getElementById("googlePhoto
 
 /* ===== Sincronização geral do app inteiro com Google Docs ===== */
 function setAppSyncStatus(message,type=""){
-  const el=document.getElementById("appSyncStatus");
-  if(!el)return;
-  el.textContent=message;
-  el.className="sync-pill"+(type?" "+type:"");
+  ["appSyncStatus","mobileSyncStatus"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.textContent=message;
+    el.className="sync-pill"+(type?" "+type:"");
+  });
 }
 function getSyncPin(){
   const field=document.getElementById("memPin");
@@ -810,6 +906,7 @@ async function restoreAppFromDocs(){
 }
 
 renderAll();
+preferMobilePlannerOnPhone();
 memLoadData();
 </script>
 </body>
