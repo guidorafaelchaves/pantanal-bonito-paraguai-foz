@@ -122,15 +122,12 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 /* ===== Memória Viva — Google Docs + IA ===== */
 .memory-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.memory-status{margin-top:12px;padding:12px;border-radius:15px;background:#0a1220;border:1px solid var(--line);color:var(--muted);line-height:1.45}.memory-status.ok{border-color:#166534;background:#0c1e14;color:#bbf7d0}.memory-status.err{border-color:#7f1d1d;background:#220f12;color:#fecaca}.memory-list{display:grid;gap:10px;max-height:470px;overflow:auto;padding-right:4px}.memory-item{border:1px solid var(--line);border-radius:15px;padding:12px;background:#0a1220}.memory-item strong{display:block;margin-bottom:4px}.memory-item small{color:var(--muted);font-weight:850}.memory-badge{display:inline-flex;margin-bottom:7px;padding:5px 9px;border-radius:999px;background:#0b1220;border:1px solid var(--line);color:#bae6fd;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.05em}.memory-json{max-height:470px;overflow:auto;margin:0;background:#050914;border:1px solid var(--line);border-radius:15px;padding:12px;color:#bbf7d0;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:12px;white-space:pre-wrap}.memory-insight{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}.google-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.google-photo-card{border:1px solid var(--line);border-radius:16px;background:#0a1220;overflow:hidden}.google-photo-card iframe{width:100%;height:190px;border:0;display:block}.google-photo-card .body{padding:12px}.google-photo-card h3{font-size:15px;margin:0 0 5px}.google-photo-card p{margin:0;color:var(--muted);font-size:12px}.memory-ai-note{border-left:4px solid var(--accent);padding:10px 12px;background:#071525;border-radius:12px;color:#dbeafe;margin-top:10px}@media(max-width:900px){.memory-grid,.memory-insight,.google-photo-grid{grid-template-columns:1fr}.google-photo-card iframe{height:230px}}
 
-/* ===== Sincronização do app completo com Google Docs ===== */
-.app-sync-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
-.app-sync-status{margin-top:12px;padding:12px;border-radius:15px;background:#0a1220;border:1px solid var(--line);color:var(--muted);line-height:1.45}
-.app-sync-status.ok{border-color:#166534;background:#0c1e14;color:#bbf7d0}
-.app-sync-status.err{border-color:#7f1d1d;background:#220f12;color:#fecaca}
-.app-sync-status.warn{border-color:#7c4a03;background:#211707;color:#fde68a}
-.sync-kv{display:grid;grid-template-columns:140px 1fr;gap:8px;font-size:12px;color:var(--muted);margin-top:8px}
-.sync-kv strong{color:#dbeafe}
-@media(max-width:900px){.app-sync-grid{grid-template-columns:1fr}.sync-kv{grid-template-columns:1fr}}
+/* ===== Sincronização geral com Google Docs ===== */
+.sync-pill{display:inline-flex;align-items:center;gap:6px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:#0a1220;color:#bae6fd;font-weight:900;font-size:12px}
+.sync-pill.ok{border-color:#166534;background:#0c1e14;color:#bbf7d0}
+.sync-pill.warn{border-color:#7c4a03;background:#211707;color:#fde68a}
+.sync-pill.err{border-color:#7f1d1d;background:#220f12;color:#fecaca}
+@media(max-width:760px){.sync-pill{justify-content:center;min-height:44px}}
 
 </style>
 </head>
@@ -144,6 +141,9 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
 <button onclick="exportBackup()" class="gold">Exportar backup</button>
 <label class="btn">Importar backup<input type="file" accept=".json" style="display:none" onchange="importBackup(event)"></label>
 <button onclick="window.print()">Imprimir / PDF</button>
+<button onclick="syncAppToDocs()" class="primary">Sincronizar com Docs</button>
+<button onclick="restoreAppFromDocs()">Restaurar do Docs</button>
+<span id="appSyncStatus" class="sync-pill">Docs: aguardando</span>
 </div>
 </header>
 
@@ -346,37 +346,6 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--panel);c
     <h2>Leitura da memória</h2>
     <p class="muted">Resumo dos registros que já estão no Google Docs.</p>
     <div id="memSummary" class="memory-list"><div class="memory-item"><span class="memory-badge">aguardando</span><strong>Aguardando leitura</strong><p class="muted">Clique em “Atualizar dados”.</p></div></div>
-  </div>
-</div>
-
-<div class="card" style="margin-top:14px">
-  <h2>Sincronização do app completo</h2>
-  <p class="muted">
-    Use esta área para gravar no Google Docs o estado completo do planejador: roteiro editável, trechos, lugares, orçamento, parte aérea, aluguel do carro, checklist e notas.
-    Os anexos pesados em base64 não são enviados para evitar travar a URL; eles continuam preservados no navegador e no backup local.
-  </p>
-  <div class="app-sync-grid">
-    <div class="mini-card">
-      <h3>Enviar alterações</h3>
-      <p class="muted small">Salva o estado atual do app no Google Docs via Apps Script.</p>
-      <button class="primary" onclick="appSyncSaveNow()">Salvar app no Google Docs</button>
-    </div>
-    <div class="mini-card">
-      <h3>Restaurar estado</h3>
-      <p class="muted small">Busca o último pacote salvo no Google Docs e aplica neste navegador.</p>
-      <button onclick="appSyncLoadLatest()">Restaurar do Google Docs</button>
-    </div>
-    <div class="mini-card">
-      <h3>Auto-sync</h3>
-      <p class="muted small">Quando ativo, agenda um envio automático após alterações locais.</p>
-      <label class="check"><input id="appSyncAuto" type="checkbox" onchange="appSyncSetAuto(this.checked)"> <span>Sincronizar automaticamente</span></label>
-    </div>
-  </div>
-  <div id="appSyncStatus" class="app-sync-status">Sincronização pronta. Primeiro valide que o Apps Script aceita as ações <strong>save_app_state</strong> e <strong>read_app_state</strong>.</div>
-  <div class="sync-kv">
-    <strong>Último envio local:</strong><span id="appSyncLastLocal">—</span>
-    <strong>Último pacote lido:</strong><span id="appSyncLastRemote">—</span>
-    <strong>Modo:</strong><span id="appSyncMode">manual</span>
   </div>
 </div>
 
@@ -606,7 +575,7 @@ function load(){
     return s;
   }catch(e){return defaultState()}
 }
-function save(){localStorage.setItem(LS,JSON.stringify(state));renderAll();appSyncSchedule()}
+function save(){localStorage.setItem(LS,JSON.stringify(state));renderAll()}
 function routePoints(){const pts=[];state.legs.forEach(l=>{if(l.from&&!pts.includes(l.from))pts.push(l.from);if(l.to&&!pts.includes(l.to))pts.push(l.to)});return pts}
 function mainRouteUrl(){const pts=routePoints();const origin=pts[0]||"Campo Grande, MS",dest=pts[pts.length-1]||"Foz do Iguaçu, PR",wps=pts.slice(1,-1).slice(0,9).join("|");return `https://www.google.com/maps/dir/?api=1&origin=${enc(origin)}&destination=${enc(dest)}&waypoints=${enc(wps)}&travelmode=driving`}
 function iframeUrl(){return `https://maps.google.com/maps?q=${enc(routePoints().join(" to "))}&output=embed`}
@@ -752,7 +721,7 @@ function resetAll(){if(confirm("Restaurar padrão e apagar edições salvas?")){
 
 
 /* ===== Memória Viva — Google Docs + JSON ===== */
-const MEM_APPS_SCRIPT_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnQ9959CdX285-k9UqGJFwpIL_xGNVomNU0UrJWJLMvQOyMfURsQ05NWZ6Qz5826twUcTyJHO2PW-JOmX7Tat07ykZQPM8TtdCXRCgquZi510n7U5N7upmICexoWVEGtLN3QRUGGdtIy4Yxr4BhojA6Z8uKwx2xmd_15lrdrYIoS_OZwfpIgFj39FzjTz7hJCWUfZLUfpwAuz_Q39e3yAP_LmHGb3mZb9c3EqFMStqRiLH20T-kQn3JEl3ZIjZRO9aG-u6zLix3RG_jp_72Y7ZOCA84FBw&lib=M4uwVv58r528FBzcK-FyRY7LQuUZr8v_g";
+const MEM_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxi7j5tzTpiUuSTEvEXNKI60nUcj-vELNcJRMM7YDi0E7tcSkibDm3P8_vl6IB3z2qMgw/exec";
 let memCurrentData = null;
 function memStatus(message,type=""){const box=document.getElementById("memStatus");if(!box)return;box.textContent=message;box.className="memory-status"+(type?" "+type:"")}
 function memBuildUrl(params){const u=new URL(MEM_APPS_SCRIPT_URL);Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));return u.toString()}
@@ -768,164 +737,78 @@ function formatMemDate(v){if(!v)return"";const d=new Date(v);if(Number.isNaN(d.g
 function renderGooglePhotoCards(){const box=document.getElementById("googlePhotoCards");if(!box)return;const points=routePoints().slice(0,9);box.innerHTML=points.map(p=>`<div class="google-photo-card"><iframe loading="lazy" src="https://maps.google.com/maps?q=${enc(p)}&output=embed"></iframe><div class="body"><h3>${safe(p)}</h3><p>Prévia integrada do Google Maps. Use o botão para abrir fotos, avaliações e detalhes do ponto.</p><div class="actions" style="justify-content:flex-start;margin-top:10px"><a class="btn primary" target="_blank" href="${mapsSearch(p)}">Abrir no Maps</a><a class="btn" target="_blank" href="https://www.google.com/maps/search/${enc(p+' fotos')}">Fotos</a></div></div></div>`).join("")}
 
 
-/* ===== Sincronização do estado completo do app com Google Docs ===== */
-const APP_SYNC_STORAGE_KEY = "rota_epica_v3_app_sync_meta";
-let appSyncTimer = null;
-
-function appSyncStatus(message,type=""){
-  const box=document.getElementById("appSyncStatus");
-  if(!box)return;
-  box.innerHTML=message;
-  box.className="app-sync-status"+(type?" "+type:"");
+/* ===== Sincronização geral do app inteiro com Google Docs ===== */
+function setAppSyncStatus(message,type=""){
+  const el=document.getElementById("appSyncStatus");
+  if(!el)return;
+  el.textContent=message;
+  el.className="sync-pill"+(type?" "+type:"");
 }
-
-function appSyncMeta(){
-  try{return JSON.parse(localStorage.getItem(APP_SYNC_STORAGE_KEY))||{}}
-  catch(e){return{}}
+function getSyncPin(){
+  const field=document.getElementById("memPin");
+  if(field&&field.value)return field.value;
+  return "2026";
 }
-
-function appSyncSetMeta(meta){
-  localStorage.setItem(APP_SYNC_STORAGE_KEY,JSON.stringify({...appSyncMeta(),...meta}));
-  appSyncRenderMeta();
-}
-
-function appSyncRenderMeta(){
-  const meta=appSyncMeta();
-  const local=document.getElementById("appSyncLastLocal");
-  const remote=document.getElementById("appSyncLastRemote");
-  const mode=document.getElementById("appSyncMode");
-  const auto=document.getElementById("appSyncAuto");
-  if(local)local.textContent=meta.lastLocal?formatMemDate(meta.lastLocal):"—";
-  if(remote)remote.textContent=meta.lastRemote?formatMemDate(meta.lastRemote):"—";
-  if(mode)mode.textContent=meta.auto?"automático":"manual";
-  if(auto)auto.checked=!!meta.auto;
-}
-
-function appSyncSetAuto(value){
-  appSyncSetMeta({auto:!!value});
-  appSyncStatus(value?"Auto-sync ativado. As próximas alterações serão enviadas após alguns segundos.":"Auto-sync desativado.","ok");
-}
-
-function appSyncSchedule(){
-  const meta=appSyncMeta();
-  if(!meta.auto)return;
-  clearTimeout(appSyncTimer);
-  appSyncTimer=setTimeout(()=>appSyncSaveNow(true),3500);
-}
-
-function appSyncCompactState(){
-  const clone=JSON.parse(JSON.stringify(state||{}));
-  clone.files=(clone.files||[]).map(f=>({
+function compactStateForDocs(){
+  const clean=JSON.parse(JSON.stringify(state||{}));
+  clean.files=(clean.files||[]).map(f=>({
     id:f.id,
     name:f.name,
     type:f.type,
     size:f.size,
-    preservedLocalOnly:true
+    storedLocally:true,
+    note:"Arquivo preservado apenas no navegador/localStorage para evitar payload pesado no Google Docs. Use Exportar backup para arquivos anexados."
   }));
-  return clone;
-}
-
-function appSyncPayload(){
   return {
-    kind:"pantanal_bonito_paraguai_foz_app_state",
-    version:"v3-google-docs-sync",
+    version:"rota_epica_v3_equilibrada_sync_docs_v1",
     savedAt:new Date().toISOString(),
-    travelers:["Guido","Thayná"],
-    source:location.href,
-    state:appSyncCompactState()
+    source:"GitHub Pages - Pantanal Bonito Paraguai Foz",
+    state:clean
   };
 }
-
-function appSyncPost(params){
-  return new Promise((resolve)=>{
-    const frameName="appSyncFrame_"+Date.now();
-    const iframe=document.createElement("iframe");
-    iframe.name=frameName;
-    iframe.style.display="none";
-    document.body.appendChild(iframe);
-
-    const form=document.createElement("form");
-    form.method="POST";
-    form.action=MEM_APPS_SCRIPT_URL;
-    form.target=frameName;
-    form.style.display="none";
-
-    Object.entries(params).forEach(([k,v])=>{
-      const input=document.createElement("input");
-      input.type="hidden";
-      input.name=k;
-      input.value=typeof v==="string"?v:JSON.stringify(v);
-      form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-
-    setTimeout(()=>{
-      form.remove();
-      iframe.remove();
-      resolve({ok:true,posted:true});
-    },1800);
-  });
+async function postToAppsScript(payload){
+  await fetch(MEM_APPS_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  return {ok:true,opaque:true};
 }
-
-async function appSyncSaveNow(silent=false){
-  const pin=document.getElementById("memPin")?.value||"2026";
-  const author=document.getElementById("memAuthor")?.value||"Guido";
-  const payload=appSyncPayload();
-
-  if(!silent)appSyncStatus("Enviando estado completo do app para o Google Docs...","warn");
-
+async function syncAppToDocs(){
+  const pin=getSyncPin();
+  const payload=compactStateForDocs();
+  setAppSyncStatus("Docs: enviando...","warn");
+  if(typeof memStatus==="function")memStatus("Sincronizando estado completo do app com o Google Docs...");
   try{
-    await appSyncPost({
-      action:"save_app_state",
-      pin,
-      author,
-      payload:JSON.stringify(payload)
-    });
-
-    appSyncSetMeta({lastLocal:payload.savedAt});
-    if(!silent)appSyncStatus("Estado do app enviado. Se o Código.gs estiver atualizado, o pacote já estará salvo no Google Docs.","ok");
+    await postToAppsScript({action:"syncApp",pin,author:"Guido",payload});
+    setAppSyncStatus("Docs: sincronizado","ok");
+    if(typeof memStatus==="function")memStatus("Estado completo enviado ao Google Docs. Atualize a memória para confirmar a leitura.","ok");
   }catch(e){
-    appSyncStatus("Erro ao enviar estado do app: "+e.message,"err");
+    setAppSyncStatus("Docs: erro","err");
+    if(typeof memStatus==="function")memStatus("Erro ao sincronizar app: "+e.message,"err");
   }
 }
-
-async function appSyncLoadLatest(){
-  appSyncStatus("Buscando último estado completo salvo no Google Docs...","warn");
-
+async function restoreAppFromDocs(){
+  const pin=getSyncPin();
+  if(!confirm("Restaurar o estado do app salvo no Google Docs? Isso substituirá os dados locais atuais deste navegador."))return;
+  setAppSyncStatus("Docs: restaurando...","warn");
+  if(typeof memStatus==="function")memStatus("Buscando estado completo salvo no Google Docs...");
   try{
-    const r=await memJsonp({action:"read_app_state"});
-    if(!r||!r.ok){
-      appSyncStatus((r&&r.error)||"Não foi possível ler o estado completo. Verifique se o Código.gs implementa read_app_state.","err");
-      return;
+    const r=await memJsonp({action:"restoreApp",pin});
+    const payload=r&&r.payload?r.payload:(r&&r.data&&r.data.appState?r.data.appState:null);
+    const restored=payload&&payload.state?payload.state:payload;
+    if(!r||!r.ok||!restored){
+      throw new Error((r&&r.error)||"Nenhum estado do app encontrado no Google Docs.");
     }
-
-    const payload=typeof r.payload==="string"?JSON.parse(r.payload):(r.payload||r.data||{});
-    if(!payload.state){
-      appSyncStatus("O retorno do Apps Script não contém payload.state.","err");
-      return;
-    }
-
-    if(!confirm("Restaurar o estado salvo no Google Docs neste navegador? Isso substituirá o estado local atual."))return;
-
-    state=payload.state;
+    state=restored;
     localStorage.setItem(LS,JSON.stringify(state));
     renderAll();
-    appSyncSetMeta({lastRemote:payload.savedAt||new Date().toISOString()});
-    appSyncStatus("Estado restaurado com sucesso a partir do Google Docs.","ok");
+    setAppSyncStatus("Docs: restaurado","ok");
+    if(typeof memStatus==="function")memStatus("Estado do app restaurado a partir do Google Docs.","ok");
   }catch(e){
-    appSyncStatus("Erro ao restaurar estado: "+e.message,"err");
+    setAppSyncStatus("Docs: erro","err");
+    if(typeof memStatus==="function")memStatus("Erro ao restaurar do Google Docs: "+e.message,"err");
   }
-}
-
-function appSyncBoot(){
-  appSyncRenderMeta();
 }
 
 renderAll();
 memLoadData();
-appSyncBoot();
 </script>
 </body>
 </html>
